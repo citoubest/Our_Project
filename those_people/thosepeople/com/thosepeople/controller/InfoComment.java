@@ -1,6 +1,5 @@
-
 package com.thosepeople.controller;
-
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.thosepeople.exception.BusinessException;
 import com.thosepeople.service.PostCommentService;
+import com.thosepeople.util.DateUtils;
+import com.thosepeople.vo.UserInfo;
+
 
 @Controller
 @RequestMapping("/post_comment")
@@ -38,7 +40,6 @@ public class InfoComment {
 			@RequestParam("infoType") int infoType,
 			@RequestParam("commentType") int commentType, HttpSession session)
 			throws BusinessException {
-		System.out.println("fffffff");
 		if(beRepliedUserId==null)
 		{
 			beRepliedUserId=-1;
@@ -57,6 +58,13 @@ public class InfoComment {
 				response.put("beRepliedUserName", beRepliedUserName);
 				response.put("beRepliedUserId", String.valueOf(beRepliedUserId));
 			}
+			UserInfo userInfo=(UserInfo) session.getAttribute("userInfo");
+			String replyUserHeadPic=userInfo.getHeadPicPath();
+			String replyUserNickName=userInfo.getNickName();
+			String replyTime=DateUtils.getNowDateString(new Date());
+			response.put("replyUserHeadPic", replyUserHeadPic);
+			response.put("replyUserNickName", replyUserNickName);
+			response.put("replyTime",replyTime);
 			response.put("commentContent", commentContent);
 			return response;
 		} else {
