@@ -43,35 +43,19 @@
 								${houseInfo.title}
 								</div>
 								<div class="col-md-4">
-									发布时间：${houseInfo.postTime} <br> <br> 浏览人数：100人
+									<p>发布时间： </p>
+									<p>${houseInfo.postTime}</p><br> <br> 浏览人数：${houseInfo.visitCnt}人
 								</div>
 							</div>
 						</div>
 						<hr class="featurette-divider">
-						<p>信息类型：</p>
-						<p>
-						   <c:if test="${houseInfo.infoType eq 1}">出租</c:if>
-						   <c:if test="${houseInfo.infoType eq 2}">求租</c:if>
-                        </p>
-
-						<br> <br>
-						<p>房屋类型：</p>
-						<p>
-						   <c:if test="${houseInfo.houseType eq 1}">不限</c:if>
-						   <c:if test="${houseInfo.houseType eq 2}">普通住房</c:if>
-						   <c:if test="${houseInfo.houseType eq 3}">商住两用</c:if>
-							<c:if test="${houseInfo.houseType eq 4}">公寓</c:if>
-							<c:if test="${houseInfo.houseType eq 5}">别墅</c:if>
-							<c:if test="${houseInfo.houseType eq 6}">其他</c:if>
-                        </p>
-                        <br> <br>
-						<p>房屋描述：</p>
-						<p>
-						${houseInfo.infoDescribe}
-                        </p>
-                        <br><br>
-                        <p>联系方式：</p>
-                        <p>${houseInfo.contactWay}</p>
+						<p>信息类型：${houseInfo.infoType}</p>
+						<br>
+						<p>房屋类型： ${houseInfo.houseType}</p>
+                        <br>
+						<p>房屋描述：${houseInfo.infoDescribe}</p>
+                        <br>
+                        <p>联系方式：${houseInfo.contactWay}</p>
 						<hr class="featurette-divider">
 						<button type="button" class="btn btn-info" id="collectBtn">收藏</button>
 					</div>
@@ -81,7 +65,7 @@
 						<span class="glyphicon glyphicon-comment"></span> 说两句 <br>
 						<textarea id="commentConten" class="form-control" rows="5"></textarea>
 						<div class="row">
-							<button type="button" onclick="postCommnet(1,0,${userInfo.uid})" class="btn btn-info" id="commentBtn">评论</button>
+							<button type="button" onclick="postCommnet(3,0,${userInfo.uid})" class="btn btn-info" id="commentBtn">评论</button>
 						</div>
 						<h4>评论</h4>
 						<br>

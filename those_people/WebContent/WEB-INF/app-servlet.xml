@@ -46,4 +46,11 @@
 			</props>
 		</property>
 	</bean>
+	
+	<mvc:interceptors>
+	   <mvc:interceptor>
+	   <mvc:mapping path="/post_love_info/*"/>
+	   <bean class="com.thosepeople.interceptor.CheckLogin"></bean>
+	   </mvc:interceptor>
+	</mvc:interceptors>
 </beans>

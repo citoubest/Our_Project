@@ -43,19 +43,13 @@
 								<div class="row" id="houseinfotitle">
 									${userInfo.nickName}发布了：<a href="javascript:void(0)" onclick="showHouseDetail(${houseInfo.id})"> ${houseInfo.title}</a>
 									 <span class="label label-info"	style="font-size: 15px;">
-									    <c:if test="${houseInfo.infoType eq 1}">出租</c:if>
-										<c:if test="${houseInfo.infoType eq 2}">求租</c:if>
+									 ${houseInfo.infoType}
 									 </span>
 									 &nbsp&nbsp&nbsp&nbsp 发布时间 &nbsp ${houseInfo.postTime}
 								</div>
 								<div class="row" id="houseinfohead">
-									房屋类型：<c:if test="${houseInfo.houseType eq 1}">不限</c:if>
-									<c:if test="${houseInfo.houseType eq 2}">普通住房</c:if>
-									<c:if test="${houseInfo.houseType eq 3}">商住两用</c:if>
-									<c:if test="${houseInfo.houseType eq 4}">公寓</c:if>
-									<c:if test="${houseInfo.houseType eq 5}">别墅</c:if>
-									<c:if test="${houseInfo.houseType eq 6}">其他</c:if>
-								</div>						
+								 房屋类型： ${houseInfo.houseType}
+								</div>			
 							</div>
 						</div>
 							<hr class="featurette-divider">

@@ -85,9 +85,10 @@ function ajaxRead(currentpage)
 							'<img src='+houseInfo.headPicPath+'class="img-rounded" id="head-pic-detail"> <label style="padding-left: 15px;">'+
 							houseInfo.nickName+'</label></div><div class="col-md-10">	<div class="row" id="houseInfo">'+
 							'<a href="javascript:void(0)" onclick="showHouseDetail('+houseInfo.id+')">'+houseInfo.title+
-							'</a>&nbsp<span class="label label-info" style="font-size: 15px;">'+
-							'</p></div>	<div class="row" id="postTime">	<p>发布日期:'+houseInfo.postTime+
-							'</p></div>	</div>	</div>	<hr class="featurette-divider">'
+							'</a>&nbsp<span class="label label-info" style="font-size: 15px;">'+ houseInfo.infoType+
+							'</span></p></div>	<div class="row" id="postTime">	<p>发布日期:'+houseInfo.postTime+
+							'</p></div>	<div class="row" id="houseinfohead"> 房屋类型：'+ houseInfo.houseType+
+							'</div></div></div><hr class="featurette-divider">'
 					);  
 				});  
 			}

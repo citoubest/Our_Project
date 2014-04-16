@@ -1,4 +1,4 @@
-/**
+ï»¿/**
  * 
  */
 package com.thosepeople.constant;
@@ -8,8 +8,8 @@ package com.thosepeople.constant;
  * 
  */
 public enum EducationBackground {
-	JUNIOR(1, "ÖĞÑ§"), TECHNICAL(2, "ÖĞ×¨¼¼Ğ£"), HIGHSCHOOL(3, "¸ßÖĞ"), COLLEGE(4, "±¾¿Æ"), MASTER(
-			5, "Ë¶Ê¿"), DOCTOR(6, "²©Ê¿"), OTHER(7, "ÆäËû");
+	JUNIOR(1, "ä¸­å­¦"), TECHNICAL(2, "ä¸­ä¸“æŠ€æ ¡"), HIGHSCHOOL(3, "é«˜ä¸­"), COLLEGE(4, "æœ¬ç§‘"), MASTER(
+			5, "ç¡•å£«"), DOCTOR(6, "åšå£«"), OTHER(7, "å…¶ä»–");
 	private String degree;
 	private int level;
 

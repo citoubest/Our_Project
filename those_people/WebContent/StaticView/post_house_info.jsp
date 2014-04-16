@@ -55,9 +55,11 @@
 					<h3><span class="label label-primary">信息描述（必填内容）</span></h3>
 					<textarea  name = "infoDescribe"  id = "infoDescribe" class="form-control" rows="10"></textarea>
 					<br>
+					 
 					<h3><span class="label label-danger">无图无真相(可选)</span></h3>
 					 <input type="file"  name="picturePath"> 
 					<br>
+					
 					<div class="input-group input-group-lg">
 					  <span class="input-group-addon">联系方式</span>
 					  <input type="text"  name="contactWay" id="contactWay"  class="form-control" placeholder="必填内容">

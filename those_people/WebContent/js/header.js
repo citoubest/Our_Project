@@ -95,9 +95,7 @@ function checkRegister() {
 
 
 var verifyLoginResult = -1;
-function verifyLoginPassword(){
-	var loginEmail = document.getElementById("loginEmail").value;
-	var loginPassword = document.getElementById("loginPassword").value;
+function verifyLoginPassword(loginEmail,loginPassword){
 	if(loginEmail.length==0||loginPassword.length==0){
 		return;
 	}
@@ -124,6 +122,7 @@ function checkLogin() {
 		showWarnMessage('errorLogin', "邮箱格式不正确，请您输入正确的邮箱地址!");
 		return false;
 	}
+	verifyLoginPassword(loginEmail,loginPassword);
 	if(verifyLoginResult!=1){
 		showWarnMessage('errorLogin', "用户名与密码不符合!");
 		return false;

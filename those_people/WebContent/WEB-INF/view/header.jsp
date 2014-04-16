@@ -151,8 +151,7 @@
 						<br>
 						<div class="input-group input-group-lg">
 							<input type="password" class="form-control" id="loginPassword"
-								name="loginPassword" placeholder="密码"
-								onblur="verifyLoginPassword()"> <span
+								name="loginPassword" placeholder="密码"> <span
 								class="input-group-addon"> <span
 								class="glyphicon glyphicon-lock"></span>
 							</span>

@@ -18,7 +18,7 @@
 	<bean id="register" class="com.thosepeople.controller.Register">
 	<property name="registerService" ref="registerService"/>
 	</bean>
-	<bean id="house" class="com.thosepeople.controller.House">
+	<bean id="house" class="com.thosepeople.controller.PostHouseInfo">
 	<property name="houseService" ref="houseService"/>
 	</bean>
 	</beans>
