@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link rel="stylesheet" type="text/css" href="../css/common_body.css">
 <link rel="stylesheet" type="text/css" href="../css/job_info.css">
-
+<link rel="stylesheet" type="text/css" href="../css/back_to_top.css">
 <!-[if IE]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]->
@@ -44,10 +44,11 @@
 								<div class="col-md-10">
 									<div class="row" id="jobinfotitle">
 										${res.nickName }发布了 <a href="javascript:void(0)"
-											onclick="showJobDetail(${res.id})">${res.title}</a> <span class="label label-info"
-											style="font-size: 15px;">${res.jobtype}</span>
+											onclick="showJobDetail(${res.id})">${res.title}</a> <span
+											class="label label-info" style="font-size: 15px;">${res.jobtype}</span>
 									</div>
-									<div class="row" id="jobinfohead">公司：${res.company} 工作地点：${res.workPlace}</div>
+									<div class="row" id="jobinfohead">公司：${res.company}
+										工作地点：${res.workPlace}</div>
 									&nbsp
 									<div class="row" id="jobinfocontent">
 										<p>工作职责：${res.content}</p>
@@ -58,9 +59,9 @@
 						</c:forEach>
 					</div>
 					<c:if test="${totalPageNum > currentPage}">
-					<div id ="linkMore" class="panel-footer" style="text-align: center">
-						<a href="javascript:void(0)" onclick="showMore(2)">更多 </a>
-					</div>
+						<div id="linkMore" class="panel-footer" style="text-align: center">
+							<a href="javascript:void(0)" onclick="showMore(2)">更多 </a>
+						</div>
 					</c:if>
 
 				</div>
@@ -70,10 +71,16 @@
 		</div>
 	</div>
 
+		<a class="btn btn-top backtop" style="display: block;" title="返回顶部">
+			<img alt="Top_arrow"  class="top_arrow"  id="top_arrow" src="../img/top.png">
+		</a>
+	
 </body>
 
 <script type="text/javascript" src="../js/job.js"></script>
+<script type="text/javascript" src="../js/back_to_top.js"></script>
 <script type="text/javascript" src="../js/more_info.js"></script>
 <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
-<script	src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script
+	src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
 </html>
