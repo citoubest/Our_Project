@@ -38,7 +38,6 @@ function checkJobInfo()
 		var email = document.getElementById('contactEmail').value;
 		var tel = document.getElementById('contactTel').value;
 		
-	
 		
 		if (jobtitle.length == 0||jobcompany.length==0 || workplace.length == 0 || jobContent.length == 0
 				|| jobRequire.length == 0 || email.lenght == 0) {

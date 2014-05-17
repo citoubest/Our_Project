@@ -98,8 +98,7 @@ public class DealJobInfo {
 
 	@RequestMapping("/showJobDetail")
 	public ModelAndView showJobDetail(
-			@RequestParam("j_id")int jid,
-			HttpSession session)
+			@RequestParam("j_id")int jid)
 	{
 		//访问次数加1
 		visitCountService.addVisitCount(jid, InfoType.JOB_INFO);

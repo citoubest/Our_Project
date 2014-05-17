@@ -6,8 +6,7 @@ function postCommnet(infoType, commentType, commentUserId) {
 	$("#commentContent").val("");
 	var infoId = $("#infoId").val();
 
-	$
-			.post(
+	$.post(
 					"/those_people/post_comment/post.do",
 					{
 						"infoType" : infoType,

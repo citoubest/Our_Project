@@ -89,4 +89,5 @@
 		<error-code>500</error-code>
 		<location>/StaticView/error/500.jsp</location>
 	</error-page>
+	
 </web-app>

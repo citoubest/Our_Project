@@ -39,19 +39,19 @@
 							<div class="row">
 								<div class="col-md-2">
 									<img src="${res.headPicPath}" class="img-rounded"
-										id="head-pic-detail"> <label style="padding-left: 15px;">${res.nickName }</label>
+										id="head-pic-detail"> <label style="padding-left: 15px;"><c:out value="${res.nickName }"/></label>
 								</div>
 								<div class="col-md-10">
 									<div class="row" id="jobinfotitle">
-										${res.nickName }发布了 <a href="javascript:void(0)"
-											onclick="showJobDetail(${res.id})">${res.title}</a> <span
-											class="label label-info" style="font-size: 15px;">${res.jobtype}</span>
+									<c:out value="${res.nickName }"/>	发布了 <a href="javascript:void(0)"
+											onclick="showJobDetail(${res.id})"><c:out value="${res.title}"/></a> <span
+											class="label label-info" style="font-size: 15px;"><c:out value="${res.jobtype}"/></span>
 									</div>
-									<div class="row" id="jobinfohead">公司：${res.company}
-										工作地点：${res.workPlace}</div>
+									<div class="row" id="jobinfohead">公司：<c:out value="${res.company}"/>
+										 工作地点：<c:out value="${res.workPlace}"/></div>
 									&nbsp
 									<div class="row" id="jobinfocontent">
-										<p>工作职责：${res.content}</p>
+										<p>工作职责：<c:out value="${res.content}"/></p>
 									</div>
 								</div>
 							</div>
@@ -74,7 +74,6 @@
 		<a class="btn btn-top backtop" style="display: block;" title="返回顶部">
 			<img alt="Top_arrow"  class="top_arrow"  id="top_arrow" src="../img/top.png">
 		</a>
-	
 </body>
 
 <script type="text/javascript" src="../js/job.js"></script>

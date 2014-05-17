@@ -14,7 +14,11 @@ public class JobDetailInfo {
 	private String requires;
 	private String email;
 	private String tel;
+	
 	private int visitCnt;
+	private int i_like;
+	private int commontCnt;
+	
 	public int getId() {
 		return id;
 	}
@@ -106,6 +110,24 @@ public class JobDetailInfo {
 	}
 	public void setVisitCnt(int visitCnt) {
 		this.visitCnt = visitCnt;
+	}
+	public String getPostdate() {
+		return postdate;
+	}
+	public void setPostdate(String postdate) {
+		this.postdate = postdate;
+	}
+	public int getI_like() {
+		return i_like;
+	}
+	public void setI_like(int i_like) {
+		this.i_like = i_like;
+	}
+	public int getCommontCnt() {
+		return commontCnt;
+	}
+	public void setCommontCnt(int commontCnt) {
+		this.commontCnt = commontCnt;
 	}
 
 }

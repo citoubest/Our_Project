@@ -12,7 +12,7 @@
 </head>
 <title>工作信息发布</title>
 </head>
-<jsp:include page="/WEB-INF/view/header.html" />
+<jsp:include page="/WEB-INF/view/header.jsp" />
  
 <body id="common_body" >
 	<div class="container">
@@ -24,7 +24,7 @@
 						<h3>发布工作信息</h3>
 					</div>
 					
-					<form action="/those_people/job/postJobInfo.do"
+					<form action="/those_people/job/postJobInfo.do" 
 						onsubmit="return checkJobInfo()" method="post">
 						
 						<input type="hidden" id ="uid" name="uid" value="${userInfo.uid}" />
