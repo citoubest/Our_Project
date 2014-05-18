@@ -8,56 +8,87 @@ import com.thosepeople.dao.LikeDao;
 public class LikeDaoImpl extends JdbcDaoSupport implements LikeDao {
 	
 	// post like sql
-	private static final String JOB_INFO_LIKE="insert into";
-	private static final String LOVE_INFO_LIKE="";
-	private static final String HOUSE_INFO_LIKE="";
-	private static final String ACTIVITY_INFO_LIKE="";
-	
-	private static final String JOB_INFO_UnLIKE="";
-	private static final String LOVE_INFO_UnLIKE="";
-	private static final String HOUSE_INFO_UnLIKE="";
-	private static final String ACTIVITY_INFO_UnLIKE="";
-	
-	
-	private static final String USER_LIKE_JOB_INFO="update user_like set jobs=CONCAT(jobs,'|',?) where uid=?";
-	private static final String USER_LIKE_HOUSE_INFO="";
-	private static final String USER_LIKE_LOVE_INFO="";
-	private static final String USER_LIKE_ACTIVITY_INFO="";
 
+	
+	
+	private static final String USER_EXITS ="select count(*) from user_statics where uid=?";
+	private static final String INFO_EXITS = "select count(*) from info_statics where infoId=? and infoType =?";
 
+	
+	@Override
+	public boolean postLike(int uid, int infoId,InfoType infotype) {
+		
+		boolean flag=false;
+		switch(infotype)
+		{
+			case JOB_INFO:
+				flag=add(uid,infoId,infotype,"like");
+				break;
+			case HOUSE_INFO:
+				
+				break;
+			case LOVE_INFO:
+				
+				break;
+			case ACTIVITY_INFO:
+				
+				break;
+		}
+	
+		return flag;
+	}
+	
+	@Override
+	public boolean postUnLike(int uid, int infoId,InfoType infotype) {
+
+		return true;
+	}
+	
 	@Override
 	public boolean getAllLikeById(int uid,InfoType infotype) {
 		// TODO Auto-generated method stub
 		return true;
 	}
 	
-	@Override
-	public boolean postLike(int uid, int infoId,InfoType infotype) {
-		
-		
-		String sql1="";
-		String sql2="";
-		switch(infotype)
+	
+	@SuppressWarnings("deprecation")
+	private boolean add(int uid, int infoId,InfoType infotype,String property)
+	{
+		//1. 根据uid 查找是否已经存在
+		int usrCnt=this.getJdbcTemplate().queryForInt(USER_EXITS, new Object[]{uid});
+		//2.根据info_id 查看是否存在
+		int info_Cnt = this.getJdbcTemplate().queryForInt(INFO_EXITS,new Object[]{infoId,infotype});
+		//3. 存在则update,否则insert 
+		String updateSQl;
+		int flag_usr=0;
+		int flag_info=0;
+		if(usrCnt==0)
 		{
-			case JOB_INFO:
-				sql1=JOB_INFO_LIKE;
-				sql2 =USER_LIKE_JOB_INFO;
-				break;
-			case HOUSE_INFO:
-				sql1 = HOUSE_INFO_LIKE;
-				sql2 =USER_LIKE_HOUSE_INFO;
-				break;
-			case LOVE_INFO:
-				sql1 =LOVE_INFO_LIKE;
-				sql2 = USER_LIKE_LOVE_INFO;
-				break;
-			case ACTIVITY_INFO:
-				sql1 = ACTIVITY_INFO_LIKE;
-				sql2 = USER_LIKE_ACTIVITY_INFO;
-				break;
+			updateSQl ="insert into user_statics(uid,job_likes)values(?,?)";
+			flag_usr=this.getJdbcTemplate().update(updateSQl, new Object[]{uid,infoId});
+			
 		}
-		int count = executeLike(sql1,sql2,uid,infoId);
-		if(count==1)
+		else
+		{
+			String selectOldSQL = "select job_likes from user_statics where uid=?";
+			String old_likes =(String)this.getJdbcTemplate().queryForObject(selectOldSQL, new Object[]{uid,infoId},String.class);
+			String new_likes = old_likes+"|"+infoId;
+			updateSQl ="update user_statics set job_likes=? where uid=?";
+			flag_usr =this.getJdbcTemplate().update(selectOldSQL, new Object[]{new_likes,uid});
+		}
+		
+		if(info_Cnt==0)
+		{
+			updateSQl ="insert into info_statics(infoId,likes,infoType) values(?,?,?)";
+			flag_info=this.getJdbcTemplate().update(updateSQl, new Object[]{infoId,1,infotype});
+		}
+		else
+		{
+			updateSQl = "update info_statics set likes = likes+1 where infoId= ? and infoType=?";
+			flag_info=this.getJdbcTemplate().update(updateSQl, new Object[]{infoId,infotype});
+		}
+		
+		if(flag_usr==1 && flag_info==1)
 		{
 			return true;
 		}
@@ -65,43 +96,5 @@ public class LikeDaoImpl extends JdbcDaoSupport implements LikeDao {
 		{
 			return false;
 		}
-	}
-	
-	@Override
-	public boolean postUnLike(int uid, int infoId,InfoType infotype) {
-		
-		String sql1="";
-		switch(infotype)
-		{
-		case JOB_INFO:
-			sql1=JOB_INFO_UnLIKE;
-			break;
-		case HOUSE_INFO:
-			sql1 = HOUSE_INFO_UnLIKE;
-			break;
-		case LOVE_INFO:
-			sql1 =LOVE_INFO_UnLIKE;
-			break;
-		case ACTIVITY_INFO:
-			sql1 = ACTIVITY_INFO_UnLIKE;
-			break;
-		}
-		
-		executeUnLike(sql1);
-		return true;
-	}
-	
-	
-	private int executeLike(String info_sql,String user_sql,int uid,int infoId)
-	{
-		//1. user_like 
-		return 1;
-		
-	}
-	
-	private int executeUnLike(String sql)
-	{
-		
-		return 1;
 	}
 }
