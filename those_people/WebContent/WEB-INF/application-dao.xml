@@ -31,11 +31,22 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
-	<bean id="pagedao" class="com.thosepeople.dao.impl.PageDaoImpl">
+	<bean id="pageDao" class="com.thosepeople.dao.impl.PageDaoImpl">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<bean id="visitCountdao" class="com.thosepeople.dao.impl.VisitCountDapImpl">
+	<bean id="visitDao" class="com.thosepeople.dao.impl.VisitDaoImpl">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	
+	<bean id="likeDao" class="com.thosepeople.dao.impl.LikeDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="collectDao" class="com.thosepeople.dao.impl.CollectDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	
+	
 </beans>

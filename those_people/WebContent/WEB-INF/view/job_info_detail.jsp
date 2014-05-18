@@ -42,13 +42,13 @@
 							<div class="col-md-10">
 								<div class="col-md-8">
 									<input type="hidden" id="infoId" value="${jobDetailInfo.id}">
-									<B>${loveInfo.title}</B>
+									<B><c:out value="${jobDetailInfo.title}"/></B>
 								</div>
 								<div class="col-md-4">
 									发布时间：
 									<c:out value="${jobDetailInfo.postDate}" />
-									<br> <br> 浏览次数：
-									<c:out value="${jobDetailInfo.visitCnt}" />
+									
+									
 								</div>
 							</div>
 						</div>
@@ -98,20 +98,21 @@
 
 
 						<hr class="featurette-divider">
-						<button type="button" class="btn btn-info" id="collectBtn">收藏</button>
 						
-						<span id="like">
-							<!--  如果赞过了，则取消赞-->
-							<c:choose>
-								<c:when test="${like==1}">
-									<button type="button" onclick="cancelLike(${jobDetailInfo.id},${userInfo.uid})" class="btn btn-info" id="collectBtn">取消赞</button>
-								</c:when>
-	
-								<c:otherwise>
-									<button type="button" onclick="doLike(${jobDetailInfo.id},${userInfo.uid})" class="btn btn-info" id="collectBtn">赞</button>
-								</c:otherwise>
-							</c:choose>
-						</span>
+						
+						<div id ="statics_info">
+						
+						<a href="javascript:void(0)">收藏 (<c:out value="10"/>)</a>
+						<a href="javascript:void(0)" onclick="praiseBox(${jobDetailInfo.id})">
+						
+							<span id ="like_type">赞</span>
+							(<span id="like_total">10</span>)
+						
+						</a>
+						<a href="javascript:void(0)"> 点击  (<c:out value="${jobDetailInfo.visitCnt}" />)</a>
+						</div>
+						
+						
 					</div>
 				</div>
 				<div class="panel panel-default">
@@ -134,5 +135,5 @@
 	</div>
 </body>
 <script type="text/javascript" src="../js/post_comment.js"></script>
-<script type="text/javascript" src="../js/like.js"></script>
+<script type="text/javascript" src="../js/statistics.js"></script>
 </html>

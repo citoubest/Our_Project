@@ -5,11 +5,16 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.HttpRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.thosepeople.constant.InfoType;
+import com.thosepeople.service.StatisticsService;
+import com.thosepeople.vo.UserInfo;
 
 /**
  * 
@@ -19,28 +24,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class Statistics {
 
+	@Autowired
+	@Qualifier("statisticsService")
+	StatisticsService statisticsService;
 	
-
 	@RequestMapping("/like/doLike")
 	@ResponseBody
-	public Map<String,Object> doLike(@RequestParam int uid,@RequestParam int info_id)
+	public Map<String,Object> doLike(@RequestParam int info_id,@RequestParam("infoType") int infoType,HttpSession session)
 	{
-		Boolean flag =  true;
+		UserInfo user = (UserInfo)session.getAttribute("userInfo");
+		int uid = user.getUid();
+		
+		Boolean flag =statisticsService.postLike(uid, info_id,InfoType.getInfoTypeByValue(infoType));
+
 		Map<String, Object> result = new HashMap<>(1);
 		result.put("result", flag);
-		result.put("like", 1);
 		return result;
 	}
-	
-	@RequestMapping("/like")
-	public Map<String,Boolean> cancelLike(@RequestParam int uid,@RequestParam int info_id)
-	{
-		Boolean flag =  true;
-		Map<String, Boolean> result = new HashMap<>(1);
-		result.put("result", flag);
-		return result;
-	}
-	
-	
-	
 }

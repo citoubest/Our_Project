@@ -36,11 +36,15 @@
 	</bean>
 	
 	<bean id="pageService" class="com.thosepeople.service.impl.PageServiceImpl">
-		<property name="pagedao" ref="pagedao"/>
+		<property name="pagedao" ref="pageDao"/>
 	</bean>
 
-	<bean id="visitCountService" class="com.thosepeople.service.impl.VisitCountServiceImpl">
-		<property name="visitCountdao" ref="visitCountdao"/>
+	<bean id="statisticsService" class="com.thosepeople.service.impl.StatisticsServiceImpl">
+		
+		<property name="collectDao" ref="collectDao"/>
+		<property name="likeDao" ref="likeDao"/>
+		<property name="visitDao" ref="visitDao"/>
 	</bean>
+
 	
 </beans>

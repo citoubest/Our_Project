@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.thosepeople.constant.InfoType;
 import com.thosepeople.service.HouseService;
-import com.thosepeople.service.VisitCountService;
 import com.thosepeople.vo.HouseInfo;
 import com.thosepeople.vo.UserInfo;
 
@@ -33,9 +30,7 @@ public class PostHouseInfo {
 	@Autowired
 	@Qualifier("houseService")
 	HouseService houseService;
-	@Autowired
-	@Qualifier("visitCountService")
-	private VisitCountService visitCountService;
+
 	private  final int pageSize = 10;
 	public HouseService getHouseService() {
 		return houseService;
@@ -77,8 +72,6 @@ public class PostHouseInfo {
 	public ModelAndView showHouseDetail(@RequestParam("id")int id,
 			HttpSession session)
 	{
-		//访问次数加1
-		visitCountService.addVisitCount(id, InfoType.HOUSE_INFO);
 		HouseInfo detail=houseService.getDetailHouseInfo(id);
 		if(detail!=null)
 		{
