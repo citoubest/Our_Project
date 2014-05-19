@@ -42,13 +42,13 @@
 							<div class="col-md-10">
 								<div class="col-md-8">
 									<input type="hidden" id="infoId" value="${jobDetailInfo.id}">
-									<B><c:out value="${jobDetailInfo.title}"/></B>
+									<B><c:out value="${jobDetailInfo.title}" /></B>
 								</div>
 								<div class="col-md-4">
 									发布时间：
 									<c:out value="${jobDetailInfo.postDate}" />
-									
-									
+
+
 								</div>
 							</div>
 						</div>
@@ -83,8 +83,7 @@
 						<p>
 							<c:out value="${jobDetailInfo.requires}" />
 						</p>
-						<br>
-						<br>
+						<br> <br>
 						<p>联系方式：</p>
 						<p>
 							Email:
@@ -98,21 +97,16 @@
 
 
 						<hr class="featurette-divider">
-						
-						
-						<div id ="statics_info">
-						
-						<a href="javascript:void(0)">收藏 (<c:out value="10"/>)</a>
-						<a href="javascript:void(0)" onclick="praiseBox(${jobDetailInfo.id})">
-						
-							<span id ="like_type">赞</span>
-							(<span id="like_total">10</span>)
-						
-						</a>
-						<a href="javascript:void(0)"> 点击  (<c:out value="${jobDetailInfo.visitCnt}" />)</a>
+
+
+						<div id="statics_info">
+
+							<a href="javascript:void(0)">收藏 (<c:out	value="${jobDetailInfo.collects}" />)</a> 
+							<a href="javascript:void(0)" onclick="praiseBox(${jobDetailInfo.id},2)"> 
+								<span id="like_type">赞</span> (<span id="like_total"><c:out	value="${jobDetailInfo.likes}" /></span>)</a>
+							 <a href="javascript:void(0)"> 点击 (<c:out value="${jobDetailInfo.visits}" />)</a>
 						</div>
-						
-						
+
 					</div>
 				</div>
 				<div class="panel panel-default">

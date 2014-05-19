@@ -15,9 +15,10 @@ public class JobDetailInfo {
 	private String email;
 	private String tel;
 	
-	private int visitCnt;
-	private int i_like;
-	private int commontCnt;
+	private int visits;
+	private int likes;
+	private int commonts;
+	private int collects;
 	
 	public int getId() {
 		return id;
@@ -105,29 +106,36 @@ public class JobDetailInfo {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	public int getVisitCnt() {
-		return visitCnt;
-	}
-	public void setVisitCnt(int visitCnt) {
-		this.visitCnt = visitCnt;
-	}
 	public String getPostdate() {
 		return postdate;
 	}
 	public void setPostdate(String postdate) {
 		this.postdate = postdate;
 	}
-	public int getI_like() {
-		return i_like;
+	public int getVisits() {
+		return visits;
 	}
-	public void setI_like(int i_like) {
-		this.i_like = i_like;
+	public void setVisits(int visits) {
+		this.visits = visits;
 	}
-	public int getCommontCnt() {
-		return commontCnt;
+	public int getLikes() {
+		return likes;
 	}
-	public void setCommontCnt(int commontCnt) {
-		this.commontCnt = commontCnt;
+	public void setLikes(int likes) {
+		this.likes = likes;
 	}
+	public int getCommonts() {
+		return commonts;
+	}
+	public void setCommonts(int commonts) {
+		this.commonts = commonts;
+	}
+	public int getCollects() {
+		return collects;
+	}
+	public void setCollects(int collects) {
+		this.collects = collects;
+	}
+
 
 }

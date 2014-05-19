@@ -20,7 +20,7 @@ import com.thosepeople.vo.InfoProfile;
 
 public class PageDaoImpl extends JdbcDaoSupport implements PageDao{
 
-	private int pageSize = 1;
+	private int pageSize = 10;
 
 	private static final BeanPropertyRowMapper<InfoProfile> rowMapper = new BeanPropertyRowMapper<InfoProfile>(InfoProfile.class);
 	private static final String LOAD_JOB_INFO = "select j.id, j.title,j.workplace,j.jobtype, LEFT(content,100) as content,j.company,j.postdate,u.nickName,u_d.headPicPath from job_info j,user u,user_detail u_d where j.uid=u.id and j.uid=u_d.uid "

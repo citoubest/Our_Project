@@ -17,8 +17,11 @@ public class InfoProfile {
 	private String company;	
 	
 	//for love
-	private int like_count;  //赞的数量
-	private int comment_count; //评论数量
+	
+	//for statics
+	private int likes;  //赞的数量
+	private int comments; //评论数量
+	private int visits;
 	
 	//for house
 	
@@ -98,17 +101,36 @@ public class InfoProfile {
 		this.company = company;
 	}
 
-	public int getLike_count() {
-		return like_count;
+	public String getPostdate() {
+		return postdate;
 	}
-	public void setLike_count(int like_count) {
-		this.like_count = like_count;
+
+	public void setPostdate(String postdate) {
+		this.postdate = postdate;
 	}
-	public int getComment_count() {
-		return comment_count;
+
+	public int getLikes() {
+		return likes;
 	}
-	public void setComment_count(int comment_count) {
-		this.comment_count = comment_count;
+
+	public void setLikes(int likes) {
+		this.likes = likes;
+	}
+
+	public int getComments() {
+		return comments;
+	}
+
+	public void setComments(int comments) {
+		this.comments = comments;
+	}
+
+	public int getVisits() {
+		return visits;
+	}
+
+	public void setVisits(int visits) {
+		this.visits = visits;
 	}
 
 	public void setJobtype(String jobtype) {

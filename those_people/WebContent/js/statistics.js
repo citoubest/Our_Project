@@ -1,25 +1,42 @@
 
 //author xuyingjie
 
-function praiseBox(info_id)
-{
-	//向后台提交数据
 
+function mydsad(info_id,info_type)
+{
+	
+	praiseBox(info_id,info_type);
+}
+
+function praiseBox(info_id,info_type)
+{
+	
+	var like_type = document.getElementById("like_type");
+	var txt = like_type.innerHTML;
+
+	var operate="";
+	if(txt=="赞")
+	{
+		operate=1;
+
+	}
+	else if(txt=="取消赞")
+	{
+		operate=0;
+	}
+	
 	$.ajax({ 
 		type:'get', 
 		dataType:'json', 
-		url: '/those_people/like/doLike.do?info_id='+info_id,
+		url:'/those_people/statics/doLike.do?infoId='+info_id+"&infoType="+info_type+"&operate="+operate,
 		beforeSend:function(){}, 
-		success:function(data)
-		{
+		success:function(data){
+
+			var like_count=document.getElementById("like_total");
+			var oldTotal=parseInt(like_count.innerHTML);
+			
 			if(data.result)
 			{
-				var like_type = document.getElementById("like_type");
-				var txt = like_type.innerHTML;
-
-				var like_count=document.getElementById("like_total");
-				var oldTotal=parseInt(like_count.innerHTML);
-
 				if(txt=="赞")
 				{
 					like_count.innerHTML=oldTotal+1;
@@ -32,8 +49,7 @@ function praiseBox(info_id)
 					like_type.innerHTML="赞";
 				}
 			}
-		}
-	});
-
-
+		},
+		complete:function(){} 
+	}); 
 }

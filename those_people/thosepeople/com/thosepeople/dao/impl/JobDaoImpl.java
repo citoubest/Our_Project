@@ -46,7 +46,7 @@ public class JobDaoImpl extends JdbcDaoSupport implements JobDao{
 		return false;
 	}
 
-	private static final String LOAD_JOB_INFO = "select j.id, j.title,j.workplace,j.jobtype,j.postdate,j.visitCnt as visit_count,u.nickName,u_d.headPicPath from job_info j,user u,user_detail u_d where j.uid=u.id and j.uid=u_d.uid "
+	private static final String LOAD_JOB_INFO = "select j.id, j.title,j.workplace,j.jobtype,j.postdate,u.nickName,u_d.headPicPath from job_info j,user u,user_detail u_d where j.uid=u.id and j.uid=u_d.uid "
 			+ "order by j.postdate desc limit 0,10";
 
 	
@@ -63,11 +63,10 @@ public class JobDaoImpl extends JdbcDaoSupport implements JobDao{
 	}
 
 	
-	private static final String LOAD_JOB_DETAIL_INFO ="select j.*,u.nickName,u_d.headPicPath from job_info j,user u,user_detail u_d where j.id=? and j.uid=u.id and j.uid=u_d.uid";
+	private static final String LOAD_JOB_DETAIL_INFO ="select j.*, s.* ,u.nickName,u_d.headPicPath from job_info j,user u,info_statics s,user_detail u_d where j.id=? and j.uid=u.id and j.id=s.infoId and j.uid=u_d.uid";
 
 	@Override
 	public JobDetailInfo loadJobDetailInfo(int jid) {
-		
 		
 		//TODO:  increase the count of info visitors 
 		List<JobDetailInfo> result =this.getJdbcTemplate().query(LOAD_JOB_DETAIL_INFO,new Object[]{jid},detailRowMapper);
