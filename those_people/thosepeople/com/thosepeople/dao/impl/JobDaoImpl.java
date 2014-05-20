@@ -56,14 +56,14 @@ public class JobDaoImpl extends JdbcDaoSupport implements JobDao{
 		List<InfoProfile> list = new ArrayList<InfoProfile>(10);
 
 		if(keyword==null)
-		{
+		{ 
 			list = this.getJdbcTemplate().query(LOAD_JOB_INFO,rowMapper);
 		}
 		return list;
 	}
 
-	
-	private static final String LOAD_JOB_DETAIL_INFO ="select j.*, s.* ,u.nickName,u_d.headPicPath from job_info j,user u,info_statics s,user_detail u_d where j.id=? and j.uid=u.id and j.id=s.infoId and j.uid=u_d.uid";
+	private static final String LOAD_JOB_DETAIL_INFO ="select j.* ,s.likes,s.comments,s.visits ,u.nickName,u_d.headPicPath from job_info j  left join user u on  j.uid=u.id  left join user_detail u_d on j.uid=u_d.uid  left join info_statics s on j.id=s.infoId  and s.infotype=2 where j.id=?";
+
 
 	@Override
 	public JobDetailInfo loadJobDetailInfo(int jid) {

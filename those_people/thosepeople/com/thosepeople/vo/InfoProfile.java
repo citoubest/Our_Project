@@ -23,6 +23,11 @@ public class InfoProfile {
 	private int comments; //评论数量
 	private int visits;
 	
+	
+	//for user
+	private boolean isLiked;
+	private boolean isCollected;
+	
 	//for house
 	
 	//for activity
@@ -149,6 +154,22 @@ public class InfoProfile {
 		default:
 			return "";
 		}
+	}
+
+	public boolean isLiked() {
+		return isLiked;
+	}
+
+	public void setLiked(boolean isLiked) {
+		this.isLiked = isLiked;
+	}
+
+	public boolean isCollected() {
+		return isCollected;
+	}
+
+	public void setCollected(boolean isCollected) {
+		this.isCollected = isCollected;
 	}
 
 }

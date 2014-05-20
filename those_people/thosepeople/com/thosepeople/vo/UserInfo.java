@@ -3,6 +3,10 @@
  */
 package com.thosepeople.vo;
 
+import java.util.Map;
+
+import com.thosepeople.model.StaticsInfo;
+
 /**
  * @author chenzhuo
  * 
@@ -21,6 +25,9 @@ public class UserInfo {
 	private String headPicPath;
 	private String company;
 
+	//save the statics info. added by xuyingjie
+	private Map<Integer,StaticsInfo> statics_info;
+	
 	public String getCompany() {
 		return company;
 	}
@@ -116,4 +123,13 @@ public class UserInfo {
 	public void setSignature(String signature) {
 		this.signature = signature;
 	}
+
+	public Map<Integer, StaticsInfo> getStatics_info() {
+		return statics_info;
+	}
+
+	public void setStatics_info(Map<Integer, StaticsInfo> statics_info) {
+		this.statics_info = statics_info;
+	}
+
 }

@@ -100,10 +100,24 @@
 
 
 						<div id="statics_info">
-
-							<a href="javascript:void(0)">收藏 (<c:out	value="${jobDetailInfo.collects}" />)</a> 
-							<a href="javascript:void(0)" onclick="praiseBox(${jobDetailInfo.id},2)"> 
+						<c:choose>
+						<c:when test="${jobDetailInfo.isCollected eq true}">
+							<a href="javascript:void(0)">已收藏 (<c:out	value="${jobDetailInfo.collects}" />)</a> 
+						</c:when>
+						<c:otherwise>
+						<a href="javascript:void(0)">收藏 (<c:out	value="${jobDetailInfo.collects}" />)</a> 
+						</c:otherwise>
+						</c:choose>
+						<c:choose>
+						<c:when test="${jobDetailInfo.isLiked eq true}">
+							<a href="javascript:void(0)" onclick="praiseBox(${jobDetailInfo.id},2,'likes')"> 
+								<span id="like_type">取消赞</span> (<span id="like_total"><c:out	value="${jobDetailInfo.likes}" /></span>)</a>
+						</c:when>
+						<c:otherwise>
+							<a href="javascript:void(0)" onclick="praiseBox(${jobDetailInfo.id},2,'likes')"> 
 								<span id="like_type">赞</span> (<span id="like_total"><c:out	value="${jobDetailInfo.likes}" /></span>)</a>
+						</c:otherwise>
+						</c:choose>
 							 <a href="javascript:void(0)"> 点击 (<c:out value="${jobDetailInfo.visits}" />)</a>
 						</div>
 

@@ -1,16 +1,15 @@
 package com.thosepeople.service;
 
-import com.thosepeople.constant.InfoType;
+
+import java.util.Map;
+
 import com.thosepeople.exception.BusinessException;
+import com.thosepeople.model.StaticsInfo;
 
 
 public interface StatisticsService {
 
-	boolean postLike(int uid,int infoId,InfoType infoTYpe)  throws BusinessException;
-	boolean postUnLike(int uid,int infoId,InfoType infoTYpe)  throws BusinessException;
-	
-	boolean collect(int uid, int infoId,InfoType infoTYpe);
-	
-	boolean addVisitCount(int id,int infoId,InfoType infoTYpe);
-	int getVisitCount(int id, int infoId,InfoType infoTYpe);
+	boolean add(int uid,int infoId,int infotype,String operate)  throws BusinessException;
+	boolean minus(int uid,int infoId,int infotype,String operate)  throws BusinessException;
+	Map<Integer,StaticsInfo> getStaticsInfoByUid(int uid)throws BusinessException;
 }

@@ -20,6 +20,9 @@ public class JobDetailInfo {
 	private int commonts;
 	private int collects;
 	
+	private boolean isLiked;
+	private boolean isCollected;
+	
 	public int getId() {
 		return id;
 	}
@@ -136,6 +139,26 @@ public class JobDetailInfo {
 	public void setCollects(int collects) {
 		this.collects = collects;
 	}
-
-
+	public boolean isLiked() {
+		return isLiked;
+	}
+	public void setLiked(boolean isLiked) {
+		this.isLiked = isLiked;
+	}
+	public boolean isCollected() {
+		return isCollected;
+	}
+	public void setCollected(boolean isCollected) {
+		this.isCollected = isCollected;
+	}
+	
+	public boolean getIsCollected()
+	{
+		return this.isCollected;
+	}
+	
+	public boolean getIsLiked()
+	{
+		return this.isLiked;
+	}
 }

@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thosepeople.exception.BusinessException;
+import com.thosepeople.model.StaticsInfo;
 import com.thosepeople.service.LoginService;
+import com.thosepeople.service.StatisticsService;
 import com.thosepeople.vo.UserInfo;
 
 /**
@@ -30,7 +32,11 @@ public class Login {
 	@Autowired
 	@Qualifier("loginService")
 	LoginService loginService;
-
+	
+	@Autowired
+	@Qualifier("statisticsService")
+	StatisticsService statisticsService;
+	
 	public void setLoginService(LoginService loginService) {
 		this.loginService = loginService;
 	}
@@ -51,7 +57,13 @@ public class Login {
 	public ModelAndView login(@RequestParam("loginEmail") String email,
 			HttpSession session) throws BusinessException {
 		UserInfo userInfo = loginService.getUserDetail(email);
+		
+		//get user staticsinfo;
+		Map<Integer,StaticsInfo>map=statisticsService.getStaticsInfoByUid(userInfo.getUid());
+		userInfo.setStatics_info(map);
+
 		session.setAttribute("userInfo", userInfo);
 		return new ModelAndView("home").addObject("userInfo", userInfo);
+		
 	}
 }

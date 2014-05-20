@@ -39,11 +39,9 @@
 		<property name="pagedao" ref="pageDao"/>
 	</bean>
 
-	<bean id="statisticsService" class="com.thosepeople.service.impl.StatisticsServiceImpl">
-		
-		<property name="collectDao" ref="collectDao"/>
-		<property name="likeDao" ref="likeDao"/>
-		<property name="visitDao" ref="visitDao"/>
+	<bean id="statisticsService" class="com.thosepeople.service.impl.StatisticsServiceImpl">		
+		<property name="staticsDao" ref="staticsDao"/>
+
 	</bean>
 
 	

@@ -1,14 +1,7 @@
 
 //author xuyingjie
 
-
-function mydsad(info_id,info_type)
-{
-	
-	praiseBox(info_id,info_type);
-}
-
-function praiseBox(info_id,info_type)
+function praiseBox(info_id,info_type,operateType)
 {
 	
 	var like_type = document.getElementById("like_type");
@@ -28,7 +21,7 @@ function praiseBox(info_id,info_type)
 	$.ajax({ 
 		type:'get', 
 		dataType:'json', 
-		url:'/those_people/statics/doLike.do?infoId='+info_id+"&infoType="+info_type+"&operate="+operate,
+		url:'/those_people/statics/doLike.do?infoId='+info_id+"&infoType="+info_type+"&operate="+operate+"&operateType="+operateType,
 		beforeSend:function(){}, 
 		success:function(data){
 

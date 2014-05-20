@@ -84,7 +84,7 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
 	private static final String GET_USER_DETAIL = " select U.realName,U.nickName,UD.uid,UD.gender,UD.city,UD.school, "
 			+ " UD.major,UD.enrollmentDate,UD.signature,UD.showType,UD.company,UD.headPicPath from"
 			+ " user U,user_detail UD where U.email=? and U.id=UD.uid ";
-
+	
 	@Override
 	public UserInfo getDetailUserInfo(String email) {
 		List<UserInfo> result = this.getJdbcTemplate().query(GET_USER_DETAIL,
