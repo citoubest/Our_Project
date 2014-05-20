@@ -1,6 +1,8 @@
 package com.thosepeople.dao.impl;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -86,19 +88,33 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 			{
 				throw new BusinessException("该用户之前没有对该信息进行加的操作:用户ID"+uid+"文章id:"+infoId+"文章类型:"+infoId+"操作:"+operate);
 			}
-			int index = old_likes.lastIndexOf(String.valueOf(infoId));
+			
+			List<String>old_list =Arrays.asList(old_likes.split(","));
+			Iterator<String> it = old_list.iterator();
+			String cur_infoId = String.valueOf(infoId);
+			it = old_list.iterator();
+			boolean flag = false;
+			for (String string : old_list) {
+				if(cur_infoId.equals(string))
+				{
+					it.remove();
+					flag = true;
+					break;
+				}
+			}
 
-			if(index==-1)
+			if(!flag)
 			{
 				throw new BusinessException("该用户之前没有对该信息进行加的操作:用户ID"+uid+"文章id:"+infoId+"文章类型:"+infoId+"操作:"+operate);
 			}
 
 			//如果只有一项
-			String new_value="";
-			if(index>0)
-			{
-				new_value = old_likes.substring(0,index-1);
+			StringBuilder builder = new StringBuilder();
+			for (String string : old_list) {
+				builder.append(string).append(",");
 			}
+			builder.deleteCharAt(builder.lastIndexOf(","));
+			String new_value = builder.toString();
 			
 			String updateSQl ="update user_statics set "+operate+"=? where uid=?";
 			int usr_Cnt=this.getJdbcTemplate().update(updateSQl, new Object[]{new_value,uid});

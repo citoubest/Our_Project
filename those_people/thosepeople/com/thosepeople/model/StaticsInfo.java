@@ -1,5 +1,8 @@
 package com.thosepeople.model;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class StaticsInfo {
 
 	private int infotype;
@@ -20,14 +23,18 @@ public class StaticsInfo {
 	public void setVisits(String visits) {
 		this.visits = visits;
 	}
-	public String getLikes() {
-		return likes;
+	public List<String> getLikes() {
+		String old[] =likes.split(",");
+		List<String>list = Arrays.asList(old);
+		return list;
 	}
 	public void setLikes(String likes) {
 		this.likes = likes;
 	}
-	public String getCollects() {
-		return collects;
+	public List<String> getCollects() {
+		String old[] =collects.split(",");
+		List<String>list = Arrays.asList(old);
+		return list;
 	}
 	public void setCollects(String collects) {
 		this.collects = collects;
