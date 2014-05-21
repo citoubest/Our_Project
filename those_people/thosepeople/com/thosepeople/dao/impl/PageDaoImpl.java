@@ -23,8 +23,20 @@ public class PageDaoImpl extends JdbcDaoSupport implements PageDao{
 	private int pageSize = 10;
 
 	private static final BeanPropertyRowMapper<InfoProfile> rowMapper = new BeanPropertyRowMapper<InfoProfile>(InfoProfile.class);
-	private static final String LOAD_JOB_INFO = "select j.id, j.title,j.workplace,j.jobtype, LEFT(content,100) as content,j.company,j.postdate,u.nickName,u_d.headPicPath from job_info j,user u,user_detail u_d where j.uid=u.id and j.uid=u_d.uid "
-			+ "order by j.postdate desc limit ?,?";
+	static
+	{
+		//防止空值赋值给 int类型出错
+		rowMapper.setPrimitivesDefaultedForNullValue(true);
+	}
+	private static final String LOAD_JOB_INFO =
+	"select j.id, j.title,j.workplace,j.jobtype, LEFT(content,100) as content,j.company,j.postdate,u.nickName,u_d.headPicPath,info.likes,info.visits,info.comments "
+	+ " from  job_info j left join user u on j.uid=u.id "
+	+ " left join user_detail u_d on j.uid=u_d.uid "
+	+ " left join info_statics info on j.id = info.infoId and info.infoType = 2 "
+	+ " order by j.postdate desc limit ?,?";
+
+//	"select j.id, j.title,j.workplace,j.jobtype, LEFT(content,100) as content,j.company,j.postdate,u.nickName,u_d.headPicPath from job_info j,user u,user_detail u_d where j.uid=u.id and j.uid=u_d.uid "
+//	+ "order by j.postdate desc limit ?,?";
 	
 	private static final String LOAD_LOVE_INFO ="";
 	private static final String LOAD_HOUSE_INFO =" select h.id,h.title,h.infoType,h.houseType,h.postTime,u.nickName,u_d.headPicPath from house_info h, user u,user_detail u_d where h.uid=u.id and h.uid=u_d.uid "
@@ -95,9 +107,14 @@ public class PageDaoImpl extends JdbcDaoSupport implements PageDao{
 	{
 		List<InfoProfile> list = new ArrayList<InfoProfile>(pageSize);
 
+		try{
 		if(keyword==null)
 		{
 			list = this.getJdbcTemplate().query(sql,new Object[]{(pageNum-1)*pageSize,pageSize},rowMapper);
+		}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
 		}
 		return list;
 	}

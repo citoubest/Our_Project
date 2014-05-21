@@ -55,7 +55,13 @@
 									</div>
 								</div>
 							</div>
+							<div>
+							<span>赞(<c:out value="${res.likes}"/>)</span>
+							<span>访问(<c:out value="${res.visits}"/>)</span>
+							<span>收藏(<c:out value="${res.comments}"/>)</span>
+							</div>
 							<hr class="featurette-divider">
+							
 						</c:forEach>
 					</div>
 					<c:if test="${totalPageNum > currentPage}">

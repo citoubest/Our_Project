@@ -46,8 +46,12 @@ public class JobDaoImpl extends JdbcDaoSupport implements JobDao{
 		return false;
 	}
 
-	private static final String LOAD_JOB_INFO = "select j.id, j.title,j.workplace,j.jobtype,j.postdate,u.nickName,u_d.headPicPath from job_info j,user u,user_detail u_d where j.uid=u.id and j.uid=u_d.uid "
-			+ "order by j.postdate desc limit 0,10";
+	private static final String LOAD_JOB_INFO = 
+			"select j.id, j.title,j.workplace,j.jobtype,j.postdate,u.nickName,u_d.headPicPath, info.likes,info.comments,info.visits"+
+			"from job_info j left join user u on j.uid=u.id"+
+			"left join user_detail u_d on j.uid=u_d.uid"+
+			"left join info_statics info on j.id = info.infoId and info.infoType = 2 "+
+			"order by j.postdate desc limit 0,10";
 
 	
 	

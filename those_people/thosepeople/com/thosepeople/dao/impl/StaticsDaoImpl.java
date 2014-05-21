@@ -9,13 +9,16 @@ import java.util.Map;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
+import com.thosepeople.constant.InfoType;
 import com.thosepeople.dao.StaticsDao;
 import com.thosepeople.exception.BusinessException;
+import com.thosepeople.model.StaticsInfo;
 import com.thosepeople.model.UserStaticsInfo;
 
 public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 
 	private static final BeanPropertyRowMapper<UserStaticsInfo> rowMapper = new BeanPropertyRowMapper<UserStaticsInfo>(UserStaticsInfo.class);
+	private static final BeanPropertyRowMapper<StaticsInfo> rowMapper_info = new BeanPropertyRowMapper<StaticsInfo>(StaticsInfo.class);
 	static
 	{
 		rowMapper.setPrimitivesDefaultedForNullValue(true);
@@ -130,11 +133,9 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 			String updateSQl ="update user_statics set "+operate+"=? where uid=?";
 			int usr_Cnt=this.getJdbcTemplate().update(updateSQl, new Object[]{new_value,uid});
 
-
 			//更新文章信息,将对应字段减一
 			String sql_info = INFO_UPDATE_PRE + operate+INFO_UPDATE_MID+operate+"="+operate+"-1";
 			int info_Cnt= this.getJdbcTemplate().update(sql_info,new Object[]{infoId,infotype});
-
 
 			if(usr_Cnt>0 && info_Cnt>0)
 			{
@@ -144,9 +145,7 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 			{
 				throw new BusinessException("数据库更新错误"+uid+"文章id:"+infoId+"文章类型:"+infoId+"操作:"+operate);
 			}
-
 		}
-
 	}
 
 	private static String isLiked="select count(*) from user_statics where uid=?  and infoType=? and FIND_IN_SET(?,";	
@@ -176,7 +175,7 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 	}
 
 
-	private static final String GET_USR_STATICS_INFO = "select us.infotype,us.likes,us.collects,us.collects from user_statics us where uid=?";
+	private static final String GET_USR_STATICS_INFO = "select us.infotype,us.likes,us.collects,us.comments from user_statics us where uid=?";
 	
 	//get a user statics info by user id
 	public Map<Integer,UserStaticsInfo> getStaticsInfoByUid(int uid)
@@ -188,7 +187,28 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 		{
 			map.put(staticsInfo.getInfotype(), staticsInfo);
 		}
-
 		return map;
+	}
+	
+	private static final String GET_ARTICLE_STATICS_INFO = "select is.likes,is.collects,is.visits from info_statics us where uid=? and infoType=?";
+	
+	//return statics info by info Id and infoType
+	@Override
+	public StaticsInfo getStaticsInfoByInfoId(int infoId, InfoType infotype)
+			throws BusinessException {
+		
+		List<StaticsInfo> result =this.getJdbcTemplate().query(GET_ARTICLE_STATICS_INFO,new Object[]{infoId,infotype.getValue()},rowMapper_info);
+
+		if(result!=null)
+		{
+			return result.get(0);
+		}		
+		return null;
+	}
+	
+	@Override
+	public boolean addVisit(int infoId, int infoype) throws BusinessException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
