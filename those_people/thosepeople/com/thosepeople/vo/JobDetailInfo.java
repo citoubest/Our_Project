@@ -1,5 +1,12 @@
 package com.thosepeople.vo;
 
+/**
+ * 
+ * @author xuyingjie
+ *
+ *this class is used for job detail info
+ */
+
 public class JobDetailInfo {
 
 	private int id;
@@ -15,11 +22,14 @@ public class JobDetailInfo {
 	private String email;
 	private String tel;
 	
+	
+	//contain the statistic info
 	private int visits;
 	private int likes;
 	private int commonts;
 	private int collects;
 	
+	//if the user has liked or collect this info, the flag is true
 	private boolean isLiked;
 	private boolean isCollected;
 	

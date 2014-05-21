@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thosepeople.exception.BusinessException;
-import com.thosepeople.model.StaticsInfo;
+import com.thosepeople.model.UserStaticsInfo;
 import com.thosepeople.service.LoginService;
 import com.thosepeople.service.StatisticsService;
 import com.thosepeople.vo.UserInfo;
@@ -59,7 +59,7 @@ public class Login {
 		UserInfo userInfo = loginService.getUserDetail(email);
 		
 		//get user staticsinfo;
-		Map<Integer,StaticsInfo>map=statisticsService.getStaticsInfoByUid(userInfo.getUid());
+		Map<Integer,UserStaticsInfo>map=statisticsService.getStaticsInfoByUid(userInfo.getUid());
 		userInfo.setStatics_info(map);
 
 		session.setAttribute("userInfo", userInfo);

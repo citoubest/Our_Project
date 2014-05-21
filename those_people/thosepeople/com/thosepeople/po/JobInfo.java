@@ -3,6 +3,12 @@ package com.thosepeople.po;
 
 import java.util.Date;
 
+/**
+ * 
+ * @author xuyingjie
+ *
+ *this class is used for user publish or post a new job info
+ */
 
 public class JobInfo {
 

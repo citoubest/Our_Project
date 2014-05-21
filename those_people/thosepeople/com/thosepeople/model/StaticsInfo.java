@@ -1,15 +1,17 @@
 package com.thosepeople.model;
 
-import java.util.Arrays;
-import java.util.List;
-
+/**
+ * 
+ * @author xuyingjie
+ *this class contain the statictics info for a article(job,house,love……)
+ */
 public class StaticsInfo {
 
 	private int infotype;
-	private String visits;
-	private String likes;
-	private String collects;
-	private String comments;
+	private int visits;
+	private int likes;
+	private int collects;
+	private int comments;
 
 	public int getInfotype() {
 		return infotype;
@@ -17,34 +19,31 @@ public class StaticsInfo {
 	public void setInfotype(int infotype) {
 		this.infotype = infotype;
 	}
-	public String getVisits() {
+	public int getVisits() {
 		return visits;
 	}
-	public void setVisits(String visits) {
+	public void setVisits(int visits) {
 		this.visits = visits;
 	}
-	public List<String> getLikes() {
-		String old[] =likes.split(",");
-		List<String>list = Arrays.asList(old);
-		return list;
+	public int getLikes() {
+		return likes;
 	}
-	public void setLikes(String likes) {
+	public void setLikes(int likes) {
 		this.likes = likes;
 	}
-	public List<String> getCollects() {
-		String old[] =collects.split(",");
-		List<String>list = Arrays.asList(old);
-		return list;
+	public int getCollects() {
+		return collects;
 	}
-	public void setCollects(String collects) {
+	public void setCollects(int collects) {
 		this.collects = collects;
 	}
-	public String getComments() {
+	public int getComments() {
 		return comments;
 	}
-	public void setComments(String comments) {
+	public void setComments(int comments) {
 		this.comments = comments;
 	}
+	
 	
 	
 }

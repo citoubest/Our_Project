@@ -1,6 +1,7 @@
 package com.thosepeople.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thosepeople.constant.InfoType;
 import com.thosepeople.exception.BusinessException;
 import com.thosepeople.exception.SystemException;
-import com.thosepeople.model.StaticsInfo;
+import com.thosepeople.model.UserStaticsInfo;
 import com.thosepeople.po.JobInfo;
 import com.thosepeople.service.JobService;
 import com.thosepeople.service.PageService;
@@ -102,10 +103,14 @@ public class DealJobInfo {
 		if(detail!=null)
 		{
 			//根据当前用户信息设置信息是否被点赞	
-			 Map<Integer, StaticsInfo> map=  ((UserInfo)session.getAttribute("userInfo")).getStatics_info();
-			 StaticsInfo sInfo= map.get(InfoType.JOB_INFO.getValue());
+			 Map<Integer, UserStaticsInfo> map=  ((UserInfo)session.getAttribute("userInfo")).getStatics_info();
+			 if(map==null)
+			 {
+				 map = new HashMap<Integer, UserStaticsInfo>(3);
+			 }
+			 UserStaticsInfo sInfo= map.get(InfoType.JOB_INFO.getValue());
 			
-			 if(sInfo!=null && sInfo.getLikes().contains(String.valueOf(jid)))
+			 if(sInfo!=null && sInfo.getLikes()!=null &&sInfo.getLikes().contains(String.valueOf(jid)))
 			 {
 				 detail.setLiked(true);
 			 }
@@ -114,7 +119,7 @@ public class DealJobInfo {
 				 detail.setLiked(false);
 			 }
 			 
-			 if(sInfo!=null && sInfo.getCollects().contains(String.valueOf(jid)))
+			 if(sInfo!=null && sInfo.getCollects()!=null && sInfo.getCollects().contains(String.valueOf(jid)))
 			 {
 				 detail.setCollected(true);
 			 }

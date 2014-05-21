@@ -1,8 +1,8 @@
 package com.thosepeople.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -11,16 +11,16 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.thosepeople.dao.StaticsDao;
 import com.thosepeople.exception.BusinessException;
-import com.thosepeople.model.StaticsInfo;
+import com.thosepeople.model.UserStaticsInfo;
 
 public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 
-	private static final BeanPropertyRowMapper<StaticsInfo> rowMapper = new BeanPropertyRowMapper<StaticsInfo>(StaticsInfo.class);
+	private static final BeanPropertyRowMapper<UserStaticsInfo> rowMapper = new BeanPropertyRowMapper<UserStaticsInfo>(UserStaticsInfo.class);
 	static
 	{
 		rowMapper.setPrimitivesDefaultedForNullValue(true);
 	}
-	
+
 	private static final String INFO_UPDATE_PRE ="INSERT into info_statics(infoId,";
 	private static final String INFO_UPDATE_MID=",infoType) values (?,1,?) ON DUPLICATE KEY UPDATE ";
 
@@ -28,6 +28,8 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 	private static final String USER_UPDATE_MID=",collects,comments,infoType) values (?,?,'','',?) ON DUPLICATE KEY UPDATE "; 
 
 	
+
+	// add the number(likes,collects,……) for user_statics and info_statics
 	@Override
 	public boolean add(int uid, int infoId,int infotype,String operate) throws BusinessException
 	{
@@ -37,8 +39,6 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 		//如果没有操作过，则执行
 		if(!isIn(uid,infoId,infotype,operate))//没操作过
 		{
-			
-			
 			//更新文章统计信息
 			String sql_info = INFO_UPDATE_PRE + operate+INFO_UPDATE_MID+operate+"="+operate+"+1";
 			System.out.println(sql_info);
@@ -68,6 +68,7 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 
 	@SuppressWarnings("deprecation")
 	@Override
+	// minus the number(likes,collects,……) for user_statics and info_statics
 	public boolean minus(int uid, int infoId,int infotype,String operate) throws BusinessException
 	{
 		//更新用户信息
@@ -88,19 +89,26 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 			{
 				throw new BusinessException("该用户之前没有对该信息进行加的操作:用户ID"+uid+"文章id:"+infoId+"文章类型:"+infoId+"操作:"+operate);
 			}
-			
-			List<String>old_list =Arrays.asList(old_likes.split(","));
-			Iterator<String> it = old_list.iterator();
+
 			String cur_infoId = String.valueOf(infoId);
-			it = old_list.iterator();
+
+			List<String>temp =Arrays.asList(old_likes.split(","));
+			List<String> old_list = new ArrayList<String>(temp);
+
+			String removed ="";
 			boolean flag = false;
-			for (String string : old_list) {
+			for (String string : old_list)
+			{
 				if(cur_infoId.equals(string))
 				{
-					it.remove();
+					removed = string;
 					flag = true;
 					break;
 				}
+			}
+			if(removed!="")
+			{
+				old_list.remove(removed);
 			}
 
 			if(!flag)
@@ -109,22 +117,25 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 			}
 
 			//如果只有一项
-			StringBuilder builder = new StringBuilder();
-			for (String string : old_list) {
-				builder.append(string).append(",");
+			String new_value="";
+			if(old_list.size()!=0)
+			{
+				StringBuilder builder = new StringBuilder();
+				for (String string : old_list) {
+					builder.append(string).append(",");
+				}
+				builder.deleteCharAt(builder.lastIndexOf(","));
+				new_value = builder.toString();
 			}
-			builder.deleteCharAt(builder.lastIndexOf(","));
-			String new_value = builder.toString();
-			
 			String updateSQl ="update user_statics set "+operate+"=? where uid=?";
 			int usr_Cnt=this.getJdbcTemplate().update(updateSQl, new Object[]{new_value,uid});
 
-			
+
 			//更新文章信息,将对应字段减一
 			String sql_info = INFO_UPDATE_PRE + operate+INFO_UPDATE_MID+operate+"="+operate+"-1";
 			int info_Cnt= this.getJdbcTemplate().update(sql_info,new Object[]{infoId,infotype});
 
-			
+
 			if(usr_Cnt>0 && info_Cnt>0)
 			{
 				return true;
@@ -163,17 +174,21 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 		}
 		return isIn;
 	}
-	
-	
+
+
 	private static final String GET_USR_STATICS_INFO = "select us.infotype,us.likes,us.collects,us.collects from user_statics us where uid=?";
-	public Map<Integer,StaticsInfo> getStaticsInfoByUid(int uid)
+	
+	//get a user statics info by user id
+	public Map<Integer,UserStaticsInfo> getStaticsInfoByUid(int uid)
 	{
-		List<StaticsInfo> result =this.getJdbcTemplate().query(GET_USR_STATICS_INFO,new Object[]{uid},rowMapper);
-		Map<Integer,StaticsInfo> map= new HashMap<Integer,StaticsInfo>(3);
-		
-		for (StaticsInfo staticsInfo : result) {
+		List<UserStaticsInfo> result =this.getJdbcTemplate().query(GET_USR_STATICS_INFO,new Object[]{uid},rowMapper);
+		Map<Integer,UserStaticsInfo> map= new HashMap<Integer,UserStaticsInfo>(3);
+
+		for (UserStaticsInfo staticsInfo : result)
+		{
 			map.put(staticsInfo.getInfotype(), staticsInfo);
 		}
+
 		return map;
 	}
 }

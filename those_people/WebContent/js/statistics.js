@@ -1,6 +1,9 @@
 
 //author xuyingjie
 
+// info_id: the unique id for info
+//infotype:	1->LOVE_INFO, 2->JOB_INFO, 3->HOUSE_INFO, 4->ACTIVITY_INFO;
+//operateType: likes,collects
 function praiseBox(info_id,info_type,operateType)
 {
 	
@@ -10,18 +13,18 @@ function praiseBox(info_id,info_type,operateType)
 	var operate="";
 	if(txt=="赞")
 	{
-		operate=1;
+		operate="doLike";
 
 	}
 	else if(txt=="取消赞")
 	{
-		operate=0;
+		operate="doUnLike";
 	}
 	
 	$.ajax({ 
 		type:'get', 
 		dataType:'json', 
-		url:'/those_people/statics/doLike.do?infoId='+info_id+"&infoType="+info_type+"&operate="+operate+"&operateType="+operateType,
+		url:'/those_people/statics/'+operate+'.do?infoId='+info_id+"&infoType="+info_type+"&operateType="+operateType,
 		beforeSend:function(){}, 
 		success:function(data){
 

@@ -1,8 +1,19 @@
 package com.thosepeople.vo;
 
+/**
+ * 
+ * @author xuyingjie
+ *
+ *this class is used in the listView for all modules,
+ *whic contail the abstrat information
+ *
+ *this class is a templete for all modules(house,love,job,activity)
+ *when using this class in daoImpl, user just use the propertity he need
+ *and leave out the ones for other module
+ */
+
 public class InfoProfile {
 
-	
 	private int id;
 	private String nickName;
 	private String headPicPath;

@@ -102,7 +102,7 @@
 						<div id="statics_info">
 						<c:choose>
 						<c:when test="${jobDetailInfo.isCollected eq true}">
-							<a href="javascript:void(0)">已收藏 (<c:out	value="${jobDetailInfo.collects}" />)</a> 
+							<a href="javascript:void(0)">取消收藏 (<c:out	value="${jobDetailInfo.collects}" />)</a> 
 						</c:when>
 						<c:otherwise>
 						<a href="javascript:void(0)">收藏 (<c:out	value="${jobDetailInfo.collects}" />)</a> 
