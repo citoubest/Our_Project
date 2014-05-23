@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.thosepeople.constant.InfoType;
+import com.thosepeople.constant.OperateType;
 import com.thosepeople.dao.StaticsDao;
 import com.thosepeople.exception.BusinessException;
 import com.thosepeople.model.StaticsInfo;
@@ -32,7 +33,7 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 
 	// add the number(likes,collects,……) for user_statics and info_statics
 	@Override
-	public boolean add(int uid, int infoId,int infotype,String operate) throws BusinessException
+	public boolean add(int uid, int infoId,int infotype,OperateType operate) throws BusinessException
 	{
 		//1.判断是否操作过（赞过，收藏过，评论过）
 		//2.更新文章信息
@@ -70,7 +71,7 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 	@SuppressWarnings("deprecation")
 	@Override
 	// minus the number(likes,collects,……) for user_statics and info_statics
-	public boolean minus(int uid, int infoId,int infotype,String operate) throws BusinessException
+	public boolean minus(int uid, int infoId,int infotype,OperateType operate) throws BusinessException
 	{
 		//更新用户信息
 		//1. 根据uid 查找是否已经存在
@@ -78,17 +79,17 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 		//不存在，说明之前就没操作过，存在错误
 		if(usrCnt==0)
 		{
-			throw new BusinessException("该用户之前没有对该信息进行加的操作:用户ID"+uid+"文章id:"+infoId+"文章类型:"+infoId+"操作:"+operate);
+			throw new BusinessException("该用户之前没有对该信息进行加的操作:用户ID"+uid+"文章id:"+infoId+"文章类型:"+infoId+"操作:"+operate.getValue());
 		}
 		else
 		{
 			//查出来
-			String selectOldSQL = "select "+operate+ " from user_statics where uid=? and infoType=?";
+			String selectOldSQL = "select "+operate.getValue()+ " from user_statics where uid=? and infoType=?";
 			String old_likes =(String)this.getJdbcTemplate().queryForObject(selectOldSQL, new Object[]{uid,infotype},String.class);
 			//如果为空说明，之前没做过
 			if(old_likes==null ||old_likes=="")
 			{
-				throw new BusinessException("该用户之前没有对该信息进行加的操作:用户ID"+uid+"文章id:"+infoId+"文章类型:"+infoId+"操作:"+operate);
+				throw new BusinessException("该用户之前没有对该信息进行加的操作:用户ID"+uid+"文章id:"+infoId+"文章类型:"+infoId+"操作:"+operate.getValue());
 			}
 
 			String cur_infoId = String.valueOf(infoId);
@@ -114,7 +115,7 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 
 			if(!flag)
 			{
-				throw new BusinessException("该用户之前没有对该信息进行加的操作:用户ID"+uid+"文章id:"+infoId+"文章类型:"+infoId+"操作:"+operate);
+				throw new BusinessException("该用户之前没有对该信息进行加的操作:用户ID"+uid+"文章id:"+infoId+"文章类型:"+infoId+"操作:"+operate.getValue());
 			}
 
 			//如果只有一项
@@ -128,11 +129,11 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 				builder.deleteCharAt(builder.lastIndexOf(","));
 				new_value = builder.toString();
 			}
-			String updateSQl ="update user_statics set "+operate+"=? where uid=? and infoType = ?";
+			String updateSQl ="update user_statics set "+operate.getValue()+"=? where uid=? and infoType = ?";
 			int usr_Cnt=this.getJdbcTemplate().update(updateSQl, new Object[]{new_value,uid,infotype});
 
 			//更新文章信息,将对应字段减一
-			String sql_info = INFO_UPDATE_PRE + operate+INFO_UPDATE_MID+operate+"="+operate+"-1";
+			String sql_info = INFO_UPDATE_PRE + operate.getValue()+INFO_UPDATE_MID+operate.getValue()+"="+operate.getValue()+"-1";
 			int info_Cnt= this.getJdbcTemplate().update(sql_info,new Object[]{infoId,infotype});
 
 			if(usr_Cnt>0 && info_Cnt>0)
@@ -141,7 +142,7 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 			}
 			else
 			{
-				throw new BusinessException("数据库更新错误"+uid+"文章id:"+infoId+"文章类型:"+infoId+"操作:"+operate);
+				throw new BusinessException("数据库更新错误"+uid+"文章id:"+infoId+"文章类型:"+infoId+"操作:"+operate.getValue());
 			}
 		}
 	}
@@ -149,16 +150,16 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 	private static String isLiked="select count(*) from user_statics where uid=?  and infoType=? and FIND_IN_SET(?,";	
 	// adjust the user has like the article,if liked return true, else false
 	@SuppressWarnings("deprecation")
-	private boolean isIn(int uid,int infoId,int infoType,String operate)
+	private boolean isIn(int uid,int infoId,int infoType,OperateType operate)
 	{
 		boolean isIn=false;
 		String sql="";
 		switch(operate)
 		{
-		case "likes":
+		case LIKE:
 			sql=isLiked+"likes)";
 			break;
-		case "collects":
+		case COLLECT:
 			sql=isLiked+"collects)";
 			break;
 		default:

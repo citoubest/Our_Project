@@ -34,9 +34,6 @@ public class Statistics {
 	@Autowired
 	@Qualifier("statisticsService")
 	StatisticsService statisticsService;
-
-	//TODO:重构：1.函数名要修改一下，like 、collect统一。
-	//		   2.doUnlike这里collect部分尚未完成，且这里代码有待重构
 	/**
 	 * 
 	 * @param info_id 
@@ -46,13 +43,59 @@ public class Statistics {
 	 * @return
 	 * @throws BusinessException
 	 */
-	@RequestMapping("/doLike")
+	@RequestMapping("/doAdd")
 	@ResponseBody
-	public Map<String,Object> doLike(@RequestParam("infoId") int info_id,@RequestParam("infoType") int infoType,@RequestParam("operateType") int operateType,HttpSession session)  throws BusinessException
+	public Map<String,Object> doAdd(@RequestParam("infoId") int info_id,@RequestParam("infoType") int infoType,@RequestParam("operateType") int operateType,HttpSession session)  throws BusinessException
 	{
 		UserInfo user = (UserInfo)session.getAttribute("userInfo");
 		int uid = user.getUid();
-		//1.get static info of this user in session
+		Boolean flag=false;
+		
+		//update database
+		flag =statisticsService.add(uid, info_id,infoType,OperateType.getType(operateType));
+		
+		//if success, update session
+		if(flag)
+		{
+			updateSession(infoType,operateType,user,info_id,0);
+		}
+		Map<String, Object> result = new HashMap<>(1);
+		result.put("result", flag);
+		return result;
+	}
+
+	/**
+	 * 
+	 * @param info_id 
+	 * @param infoType :the type of info ,for example 1:love ,2:job……
+	 * @param operateType : for example: 1:likes,2:collects
+	 * @param session
+	 * @return
+	 * @throws BusinessException
+	 */
+	@RequestMapping("/doMinus")
+	@ResponseBody
+	public Map<String,Object> doMinus(@RequestParam("infoId") int info_id,@RequestParam("infoType") int infoType,@RequestParam("operateType") int operateType,HttpSession session)  throws BusinessException
+	{
+		UserInfo user = (UserInfo)session.getAttribute("userInfo");
+		int uid = user.getUid();
+		Boolean flag=false;
+
+		//update database
+		flag =statisticsService.minus(uid, info_id,infoType,OperateType.getType(operateType));
+
+		// if success, update session
+		if(flag)
+		{
+			updateSession(infoType,operateType,user,info_id,1);
+		}
+		Map<String, Object> result = new HashMap<>(1);
+		result.put("result", flag);
+		return result;
+	}
+	private void updateSession(int infoType,int operateType,UserInfo user,int infoId,int addOrminus) throws BusinessException
+	{
+		//get static info of this user in session
 		Map<Integer, UserStaticsInfo> map=user.getStatics_info();
 		if(map==null)
 		{
@@ -67,119 +110,85 @@ public class Statistics {
 			staticsInfo.setInfotype(infoType);
 		}
 		map.put(infoType,staticsInfo);
-		Boolean flag=false;
-
-		//update database
-		flag =statisticsService.add(uid, info_id,infoType,OperateType.getValue(operateType));
-		//if success, update session
-		if(flag)
+		
+		switch(addOrminus)
 		{
+		case 0://add
 			switch(OperateType.getType(operateType))
 			{
 			case LIKE:
-				staticsInfo.setLikes(staticsInfo.getLikes()+","+info_id); 
+				staticsInfo.setLikes(staticsInfo.getLikes()+","+infoId); 
 				break;
 			case COLLECT:
-				staticsInfo.setCollects(staticsInfo.getCollects()+","+info_id); 
+				staticsInfo.setCollects(staticsInfo.getCollects()+","+infoId); 
 				break;
 			}
-		}
-
-
-		Map<String, Object> result = new HashMap<>(1);
-		result.put("result", flag);
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param info_id 
-	 * @param infoType :the type of info ,for example 1:love ,2:job……
-	 * @param operateType : for example: likes,collects
-	 * @param session
-	 * @return
-	 * @throws BusinessException
-	 */
-	@RequestMapping("/doUnLike")
-	@ResponseBody
-	public Map<String,Object> doUnLike(@RequestParam("infoId") int info_id,@RequestParam("infoType") int infoType,@RequestParam("operateType") int operateType,HttpSession session)  throws BusinessException
-	{
-		UserInfo user = (UserInfo)session.getAttribute("userInfo");
-		int uid = user.getUid();
-		//1.get static info of this user in session
-		Map<Integer, UserStaticsInfo> map=user.getStatics_info();
-		if(map==null)
-		{
-			map = new HashMap<Integer, UserStaticsInfo>(3);
-			user.setStatics_info(map);
-		}
-		UserStaticsInfo staticsInfo=map.get(infoType);
-
-		if(staticsInfo == null)
-		{
-			staticsInfo = new UserStaticsInfo();
-			staticsInfo.setInfotype(infoType);
-		}
-		map.put(infoType,map.get(infoType));
-		Boolean flag=false;
-
-		flag =statisticsService.minus(uid, info_id,infoType,OperateType.getValue(operateType));
-
-		if(flag)
-		{
-			String cur_infoId = String.valueOf(info_id);
+			break;//end of add
+		case 1://minus
+			
+			String cur_infoId = String.valueOf(infoId);
 			List<String>old_list =null;
 			List<String>temp =null;
 			Iterator<String> it =null;
+			String old_str="";
+			//get the old value
 			switch(OperateType.getType(operateType))
 			{
 			case LIKE:
-				String likes =staticsInfo.getLikes();
-				temp = Arrays.asList(likes.split(","));
-				old_list =new ArrayList<String>(temp);
-				if(old_list!=null &&old_list.size()!=0 )
-				{
-					it = old_list.iterator();
-					String removed = "";
-					while(it.hasNext())
-					{
-						String cur = it.next();
-						if(cur_infoId.equals(cur))
-						{
-							removed = cur;
-							break;
-						}
-					}
-					if(removed!="")
-					{
-						old_list.remove(removed);
-						StringBuilder  builder = new StringBuilder();
-						String new_Str ="";
-
-						if(old_list.size()!=0)
-						{
-							for (String string : old_list) {
-								builder.append(string).append(",");
-							}
-							builder.deleteCharAt(builder.lastIndexOf(","));
-							new_Str = builder.toString();
-						}
-
-						staticsInfo.setLikes(new_Str);
-					}
-				}
-				else
-				{
-					throw new BusinessException("取消赞时出错，");
-				}
+				old_str =staticsInfo.getLikes();
 				break;
 			case COLLECT:
+				old_str =staticsInfo.getCollects();
 				break;
 			}
+			//remove the current infoId
+			temp = Arrays.asList(old_str.split(","));
+			old_list =new ArrayList<String>(temp);
+			if(old_list!=null &&old_list.size()!=0 )
+			{
+				it = old_list.iterator();
+				String removed = "";
+				while(it.hasNext())
+				{
+					String cur = it.next();
+					if(cur_infoId.equals(cur))
+					{
+						removed = cur;
+						break;
+					}
+				}
+				if(removed!="")
+				{
+					old_list.remove(removed);
+					StringBuilder  builder = new StringBuilder();
+					String new_Str ="";
 
+					if(old_list.size()!=0)
+					{
+						for (String string : old_list) {
+							builder.append(string).append(",");
+						}
+						builder.deleteCharAt(builder.lastIndexOf(","));
+						new_Str = builder.toString();
+					}
+					switch(OperateType.getType(operateType))
+					{
+					case LIKE:
+						staticsInfo.setLikes(new_Str);
+						break;
+					case COLLECT:
+						staticsInfo.setCollects(new_Str);
+						break;
+					}
+				}
+			}
+			else
+			{
+				throw new BusinessException("error when cancel like or collect: infoId "+infoId+"\tinfotype:"+infoType);
+			}
+			break;
+		default:
+				throw new BusinessException("no such command");
 		}
-		Map<String, Object> result = new HashMap<>(1);
-		result.put("result", flag);
-		return result;
 	}
 }

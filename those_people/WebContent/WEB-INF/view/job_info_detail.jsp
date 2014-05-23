@@ -102,19 +102,19 @@
 						<div id="statics_info">
 						<c:choose>
 						<c:when test="${jobDetailInfo.isCollected eq true}">
-							<a href="javascript:void(0)">取消收藏 (<c:out	value="${jobDetailInfo.collects}" />)</a> 
+							<a href="javascript:void(0)"  onclick="praiseBox(${jobDetailInfo.id},2,2)">取消收藏 (<c:out	value="${jobDetailInfo.collects}" />)</a> 
 						</c:when>
 						<c:otherwise>
-						<a href="javascript:void(0)">收藏 (<c:out	value="${jobDetailInfo.collects}" />)</a> 
+						<a href="javascript:void(0)" onclick="praiseBox(${jobDetailInfo.id},2,2)">收藏 (<c:out	value="${jobDetailInfo.collects}" />)</a> 
 						</c:otherwise>
 						</c:choose>
 						<c:choose>
 						<c:when test="${jobDetailInfo.isLiked eq true}">
-							<a href="javascript:void(0)" onclick="praiseBox(${jobDetailInfo.id},2,'likes')"> 
+							<a href="javascript:void(0)" onclick="praiseBox(${jobDetailInfo.id},2,1)"> 
 								<span id="like_type">取消赞</span> (<span id="like_total"><c:out	value="${jobDetailInfo.likes}" /></span>)</a>
 						</c:when>
 						<c:otherwise>
-							<a href="javascript:void(0)" onclick="praiseBox(${jobDetailInfo.id},2,'likes')"> 
+							<a href="javascript:void(0)" onclick="praiseBox(${jobDetailInfo.id},2,1)"> 
 								<span id="like_type">赞</span> (<span id="like_total"><c:out	value="${jobDetailInfo.likes}" /></span>)</a>
 						</c:otherwise>
 						</c:choose>
