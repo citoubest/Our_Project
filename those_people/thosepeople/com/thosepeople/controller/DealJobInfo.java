@@ -102,6 +102,7 @@ public class DealJobInfo {
 		 
 		if(detail!=null)
 		{
+			//TODO:重构，这里看是否可以封装一下，根据infotype直接返回一个UserStaticsInfo
 			//根据当前用户信息设置信息是否被点赞	
 			 Map<Integer, UserStaticsInfo> map=  ((UserInfo)session.getAttribute("userInfo")).getStatics_info();
 			 if(map==null)

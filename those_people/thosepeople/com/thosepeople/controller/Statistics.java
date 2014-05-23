@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.thosepeople.constant.OperateType;
 import com.thosepeople.exception.BusinessException;
 import com.thosepeople.model.UserStaticsInfo;
 import com.thosepeople.service.StatisticsService;
@@ -34,6 +35,8 @@ public class Statistics {
 	@Qualifier("statisticsService")
 	StatisticsService statisticsService;
 
+	//TODO:重构：1.函数名要修改一下，like 、collect统一。
+	//		   2.doUnlike这里collect部分尚未完成，且这里代码有待重构
 	/**
 	 * 
 	 * @param info_id 
@@ -45,7 +48,7 @@ public class Statistics {
 	 */
 	@RequestMapping("/doLike")
 	@ResponseBody
-	public Map<String,Object> doLike(@RequestParam("infoId") int info_id,@RequestParam("infoType") int infoType,@RequestParam("operateType") String operateType,HttpSession session)  throws BusinessException
+	public Map<String,Object> doLike(@RequestParam("infoId") int info_id,@RequestParam("infoType") int infoType,@RequestParam("operateType") int operateType,HttpSession session)  throws BusinessException
 	{
 		UserInfo user = (UserInfo)session.getAttribute("userInfo");
 		int uid = user.getUid();
@@ -67,16 +70,16 @@ public class Statistics {
 		Boolean flag=false;
 
 		//update database
-		flag =statisticsService.add(uid, info_id,infoType,operateType);
+		flag =statisticsService.add(uid, info_id,infoType,OperateType.getValue(operateType));
 		//if success, update session
 		if(flag)
 		{
-			switch(operateType)
+			switch(OperateType.getType(operateType))
 			{
-			case "likes":
+			case LIKE:
 				staticsInfo.setLikes(staticsInfo.getLikes()+","+info_id); 
 				break;
-			case "collects":
+			case COLLECT:
 				staticsInfo.setCollects(staticsInfo.getCollects()+","+info_id); 
 				break;
 			}
@@ -99,7 +102,7 @@ public class Statistics {
 	 */
 	@RequestMapping("/doUnLike")
 	@ResponseBody
-	public Map<String,Object> doUnLike(@RequestParam("infoId") int info_id,@RequestParam("infoType") int infoType,@RequestParam("operateType") String operateType,HttpSession session)  throws BusinessException
+	public Map<String,Object> doUnLike(@RequestParam("infoId") int info_id,@RequestParam("infoType") int infoType,@RequestParam("operateType") int operateType,HttpSession session)  throws BusinessException
 	{
 		UserInfo user = (UserInfo)session.getAttribute("userInfo");
 		int uid = user.getUid();
@@ -120,7 +123,7 @@ public class Statistics {
 		map.put(infoType,map.get(infoType));
 		Boolean flag=false;
 
-		flag =statisticsService.minus(uid, info_id,infoType,operateType);
+		flag =statisticsService.minus(uid, info_id,infoType,OperateType.getValue(operateType));
 
 		if(flag)
 		{
@@ -128,9 +131,9 @@ public class Statistics {
 			List<String>old_list =null;
 			List<String>temp =null;
 			Iterator<String> it =null;
-			switch(operateType)
+			switch(OperateType.getType(operateType))
 			{
-			case "likes":
+			case LIKE:
 				String likes =staticsInfo.getLikes();
 				temp = Arrays.asList(likes.split(","));
 				old_list =new ArrayList<String>(temp);
@@ -170,7 +173,7 @@ public class Statistics {
 					throw new BusinessException("取消赞时出错，");
 				}
 				break;
-			case "collects":
+			case COLLECT:
 				break;
 			}
 

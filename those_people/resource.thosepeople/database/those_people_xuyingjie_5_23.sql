@@ -28,10 +28,10 @@ USE those_people;
 DROP TABLE IF EXISTS `info_statics`;
 CREATE TABLE `info_statics` (
   `infoId` int(10) unsigned NOT NULL,
-  `likes` tinyint(6) unsigned default NULL,
-  `collects` tinyint(6) unsigned default NULL,
-  `visits` tinyint(6) unsigned default NULL,
-  `comments` tinyint(6) unsigned default NULL,
+  `likes` tinyint(6) unsigned default '0',
+  `collects` tinyint(6) unsigned default '0',
+  `visits` tinyint(6) unsigned default '0',
+  `comments` tinyint(6) unsigned default '0',
   `infoType` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY  (`infoId`,`infoType`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -41,17 +41,6 @@ CREATE TABLE `info_statics` (
 --
 
 /*!40000 ALTER TABLE `info_statics` DISABLE KEYS */;
-INSERT INTO `info_statics` (`infoId`,`likes`,`collects`,`visits`,`comments`,`infoType`) VALUES 
- (2,2,NULL,NULL,NULL,2),
- (3,0,NULL,NULL,NULL,2),
- (4,1,NULL,NULL,NULL,2),
- (5,1,NULL,NULL,NULL,2),
- (6,1,NULL,NULL,NULL,2),
- (8,1,NULL,NULL,NULL,1),
- (8,2,NULL,NULL,NULL,2),
- (9,1,NULL,NULL,NULL,1),
- (9,1,NULL,NULL,NULL,2),
- (10,1,NULL,NULL,NULL,2);
 /*!40000 ALTER TABLE `info_statics` ENABLE KEYS */;
 
 
@@ -263,9 +252,9 @@ DROP TABLE IF EXISTS `user_statics`;
 CREATE TABLE `user_statics` (
   `uid` int(10) unsigned NOT NULL,
   `infoType` int(10) unsigned NOT NULL,
-  `likes` varchar(200) NOT NULL,
-  `collects` varchar(200) NOT NULL,
-  `comments` varchar(200) NOT NULL,
+  `likes` varchar(200) NOT NULL default '0',
+  `collects` varchar(200) NOT NULL default '0',
+  `comments` varchar(200) NOT NULL default '0',
   PRIMARY KEY  (`infoType`,`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -274,11 +263,6 @@ CREATE TABLE `user_statics` (
 --
 
 /*!40000 ALTER TABLE `user_statics` DISABLE KEYS */;
-INSERT INTO `user_statics` (`uid`,`infoType`,`likes`,`collects`,`comments`) VALUES 
- (38,1,'9,8','',''),
- (38,2,'','',''),
- (41,2,',8,6,5,2','',''),
- (42,2,'9,8,4,2,10','','');
 /*!40000 ALTER TABLE `user_statics` ENABLE KEYS */;
 
 

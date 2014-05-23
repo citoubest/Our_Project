@@ -15,15 +15,30 @@
 	http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util.xsd
 	">
+
 	<bean name="dataSource" id="dataSource"
 		class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
 		<property name="jdbcUrl">
 			<value><![CDATA[${thosepeople.db.url}]]></value>
 		</property>
+		<property name="jdbcUrl" value="${thosepeople.db.url}"/>
 		<property name="user" value="${thosepeople.db.username}"/>
 		<property name="password" value="${thosepeople.db.password}"/>
 		<property name="initialPoolSize" value="5" />
 		<property name="maxPoolSize" value="5" />
 	</bean>
+
+	<!-- 用于 junit 测试连接数据库 ，以上方式无法连接 -->
+	<!-- 
+	<bean name="dataSource" id="dataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/those_people"/>
+		<property name="user" value="root"/>
+		<property name="password" value="root"/>
+		<property name="initialPoolSize" value="5" />
+		<property name="maxPoolSize" value="20" />
+	</bean>
+	 -->
 	</beans>
