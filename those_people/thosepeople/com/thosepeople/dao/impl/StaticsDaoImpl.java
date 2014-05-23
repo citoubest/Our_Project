@@ -28,9 +28,7 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 	private static final String INFO_UPDATE_MID=",infoType) values (?,1,?) ON DUPLICATE KEY UPDATE ";
 
 	private static final String USER_UPDATE_PRE="INSERT into  user_statics(uid,";
-	private static final String USER_UPDATE_MID=",collects,comments,infoType) values (?,?,'','',?) ON DUPLICATE KEY UPDATE "; 
-
-	
+	private static final String USER_UPDATE_MID=",infoType) values (?,?,?) ON DUPLICATE KEY UPDATE "; 
 
 	// add the number(likes,collects,……) for user_statics and info_statics
 	@Override
@@ -67,7 +65,7 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 		}
 	}
 
-	private static final String USER_EXIT = "select count(*) from user_statics where uid=?";
+	private static final String USER_EXIT = "select count(*) from user_statics where uid=? and infoType =?";
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -76,7 +74,7 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 	{
 		//更新用户信息
 		//1. 根据uid 查找是否已经存在
-		int usrCnt=this.getJdbcTemplate().queryForInt(USER_EXIT, new Object[]{uid});
+		int usrCnt=this.getJdbcTemplate().queryForInt(USER_EXIT, new Object[]{uid,infotype});
 		//不存在，说明之前就没操作过，存在错误
 		if(usrCnt==0)
 		{
@@ -85,8 +83,8 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 		else
 		{
 			//查出来
-			String selectOldSQL = "select "+operate+ " from user_statics where uid=?";
-			String old_likes =(String)this.getJdbcTemplate().queryForObject(selectOldSQL, new Object[]{uid},String.class);
+			String selectOldSQL = "select "+operate+ " from user_statics where uid=? and infoType=?";
+			String old_likes =(String)this.getJdbcTemplate().queryForObject(selectOldSQL, new Object[]{uid,infotype},String.class);
 			//如果为空说明，之前没做过
 			if(old_likes==null ||old_likes=="")
 			{
@@ -130,8 +128,8 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 				builder.deleteCharAt(builder.lastIndexOf(","));
 				new_value = builder.toString();
 			}
-			String updateSQl ="update user_statics set "+operate+"=? where uid=?";
-			int usr_Cnt=this.getJdbcTemplate().update(updateSQl, new Object[]{new_value,uid});
+			String updateSQl ="update user_statics set "+operate+"=? where uid=? and infoType = ?";
+			int usr_Cnt=this.getJdbcTemplate().update(updateSQl, new Object[]{new_value,uid,infotype});
 
 			//更新文章信息,将对应字段减一
 			String sql_info = INFO_UPDATE_PRE + operate+INFO_UPDATE_MID+operate+"="+operate+"-1";
@@ -161,6 +159,7 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 			sql=isLiked+"likes)";
 			break;
 		case "collects":
+			sql=isLiked+"collects)";
 			break;
 		default:
 			break;
@@ -181,8 +180,16 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 	public Map<Integer,UserStaticsInfo> getStaticsInfoByUid(int uid)
 	{
 		List<UserStaticsInfo> result =this.getJdbcTemplate().query(GET_USR_STATICS_INFO,new Object[]{uid},rowMapper);
+		
 		Map<Integer,UserStaticsInfo> map= new HashMap<Integer,UserStaticsInfo>(3);
+		UserStaticsInfo info1 = new UserStaticsInfo();
+		UserStaticsInfo info2 = new UserStaticsInfo();
+		UserStaticsInfo info3 = new UserStaticsInfo();
 
+		map.put(1, info1);
+		map.put(2, info2);
+		map.put(3, info3);
+		
 		for (UserStaticsInfo staticsInfo : result)
 		{
 			map.put(staticsInfo.getInfotype(), staticsInfo);
@@ -194,9 +201,8 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 	
 	//return statics info by info Id and infoType
 	@Override
-	public StaticsInfo getStaticsInfoByInfoId(int infoId, InfoType infotype)
-			throws BusinessException {
-		
+	public StaticsInfo getStaticsInfoByInfoId(int infoId, InfoType infotype)throws BusinessException 
+	{	
 		List<StaticsInfo> result =this.getJdbcTemplate().query(GET_ARTICLE_STATICS_INFO,new Object[]{infoId,infotype.getValue()},rowMapper_info);
 
 		if(result!=null)
@@ -206,9 +212,20 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 		return null;
 	}
 	
+	private static final String  ADD_VISIT_COUNT = "INSERT into info_statics(infoId,visits,infoType) values (?,1,?) ON DUPLICATE KEY UPDATE visits = visits+1";
 	@Override
-	public boolean addVisit(int infoId, int infoype) throws BusinessException {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean addVisit(int infoId, int infotype) throws BusinessException {
+		int cnt = this.getJdbcTemplate().update(ADD_VISIT_COUNT,new Object[]{infoId,infotype});
+
+		if(cnt==1 ||cnt==2)
+		{
+			return true;
+		}		
+		else
+		{
+			throw new BusinessException("增加文章访问量，数据库更新错误:"+"文章id:"+infoId+"文章类型:"+infotype);
+		}
+		
+		
 	}
 }
