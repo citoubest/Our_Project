@@ -62,7 +62,10 @@ function appendJobInfo( data)
 				res.jobtype+'</span></div><div class="row" id="jobinfohead">公司：'+
 				res.company+' 工作地点：'+
 				res.workPlace+'</div>&nbsp<div class="row" id="jobinfocontent"><p>工作职责：'+
-				res.content+'</p></div></div></div><hr class="featurette-divider">'	
+				res.content+'</p></div></div></div><div><span>赞(<c:out value="'+
+				res.likes+'"/>)</span><span>访问(<c:out value="'+
+				res.visits+'"/>)</span><span>收藏(<c:out value="'+
+				res.comments+'"/>)</span></div><hr class="featurette-divider">'
 		);    
 			});  
 }

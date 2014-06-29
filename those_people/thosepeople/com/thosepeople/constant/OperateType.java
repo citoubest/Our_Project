@@ -1,5 +1,13 @@
 package com.thosepeople.constant;
 
+/**
+ * 
+ * @author xuyingjie
+ *
+ *this enum is used to distinguish user's operate 
+ *for example:like collect
+ */
+
 public enum OperateType {
 
 	LIKE("likes",1),COLLECT("collects",2);

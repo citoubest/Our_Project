@@ -89,7 +89,7 @@ public class Statistics {
 		{
 			updateSession(infoType,operateType,user,info_id,1);
 		}
-		Map<String, Object> result = new HashMap<>(1);
+		Map<String, Object> result = new HashMap<String, Object>(1);
 		result.put("result", flag);
 		return result;
 	}

@@ -182,14 +182,7 @@ public class StaticsDaoImpl extends JdbcDaoSupport implements StaticsDao {
 	{
 		List<UserStaticsInfo> result =this.getJdbcTemplate().query(GET_USR_STATICS_INFO,new Object[]{uid},rowMapper);
 		
-		Map<Integer,UserStaticsInfo> map= new HashMap<Integer,UserStaticsInfo>(3);
-		UserStaticsInfo info1 = new UserStaticsInfo();
-		UserStaticsInfo info2 = new UserStaticsInfo();
-		UserStaticsInfo info3 = new UserStaticsInfo();
-
-		map.put(1, info1);
-		map.put(2, info2);
-		map.put(3, info3);
+		Map<Integer,UserStaticsInfo> map= new HashMap<Integer,UserStaticsInfo>(4);
 		
 		for (UserStaticsInfo staticsInfo : result)
 		{
