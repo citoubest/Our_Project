@@ -7,9 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">   
     <link rel="stylesheet" type="text/css" href="../css/carousel.css">  
-    <!-[if IE]>  
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-> </head>
+    
 <title>首页</title>
 </head>
 <c:choose>

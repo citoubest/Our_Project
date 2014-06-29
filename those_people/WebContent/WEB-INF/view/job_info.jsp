@@ -10,9 +10,8 @@
 <link rel="stylesheet" type="text/css" href="../css/common_body.css">
 <link rel="stylesheet" type="text/css" href="../css/job_info.css">
 <link rel="stylesheet" type="text/css" href="../css/back_to_top.css">
-<!-[if IE]>
-<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]->
+
+
 </head>
 <title>工作信息</title>
 </head>

@@ -5,7 +5,7 @@
 <head>
 
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link rel="stylesheet" type="text/css" href="../css/common_body.css">
@@ -16,18 +16,16 @@
 	rel="stylesheet">
 
 
-<!-[if IE]>
-<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]->
+
 </head>
 
 <c:choose>
-<c:when test="${!empty sessionScope.userInfo}">
-<jsp:include page="/WEB-INF/view/login_header.jsp" />
-</c:when>
-<c:otherwise>
-<jsp:include page="/WEB-INF/view/header.jsp" />
-</c:otherwise>
+	<c:when test="${!empty sessionScope.userInfo}">
+		<jsp:include page="/WEB-INF/view/login_header.jsp" />
+	</c:when>
+	<c:otherwise>
+		<jsp:include page="/WEB-INF/view/header.jsp" />
+	</c:otherwise>
 </c:choose>
 
 
@@ -41,8 +39,8 @@
 
 
 				<div class="jumbotron">
-					标题 (必填)<input type="text" class="form-control"> <br>
-					内容
+					标题 (必填)<input type="text" id="title" class="form-control">
+					<br> 内容
 					<div class="btn-toolbar" data-role="editor-toolbar"
 						data-target="#editor">
 						<div class="btn-group">
@@ -70,17 +68,28 @@
 								class="icon-align-right"></i></a>
 						</div>
 						<div class="btn-group">
-						  <a class="btn btn-default" data-toggle="dropdown" title="超链接"><i class="icon-link"></i></a>
-						    <div class="dropdown-menu input-append ">
-							    <input class="span2" placeholder="URL" type="text" data-edit="createLink"/>
-							    <button class="btn btn-default" type="button">增加</button>
-				        </div>
-				      </div>
+							<a class="btn btn-default" data-toggle="dropdown" title="超链接"><i
+								class="icon-link"></i></a>
+							<div class="dropdown-menu input-append ">
+								<input class="span2" placeholder="URL" type="text"
+									data-edit="createLink" />
+								<button class="btn btn-default" type="button">增加</button>
+							</div>
+						</div>
 						<div class="btn-group">
-							<a class="btn btn-default" title="图片（可直接拖拽）" id="pictureBtn"><i
-								class="icon-picture"></i></a>
-							<input type="file" data-role="magic-overlay" data-target="#pictureBtn" 
-								data-edit="insertImage"/>
+
+							<a  href="#myModal" class="btn btn-default" title="图片（可直接拖拽）" id="pictureBtn" target="btn" data-toggle="modal"><i class="icon-picture"></i></a> 
+				
+							<div id="myModal" class="modal">  
+								<span style="white-space:pre"></span>
+								<div class="modal-header">  
+								    <span style="white-space:pre">  </span><span class="btn btn-success fileinput-button"> <i class="icon-plus"></i> <span>Add files...</span>  
+								        <span style="white-space:pre">  </span>
+								        <input id="fileupload"  type="file" name="fileupload" onchange="ajaxFileUpload()" />  
+								    <span style="white-space:pre">  </span></span>  
+								</div>  
+							</div>  
+						
 						</div>
 						<div class="btn-group">
 							<a class="btn btn-default" data-edit="undo" title="撤销"><i
@@ -90,18 +99,20 @@
 					</div>
 
 
-					<div id="editor"></div>
+					<div id="editor">
+					
+					</div>
+
 					<br>
 					<div class="row">
 						<div class="col-md-1">
-						<button type="button" class="btn btn-default btn-lg">取消</button>
+							<button type="button" class="btn btn-default btn-lg">取消</button>
 						</div>
-						<div class="col-md-9">
-
-
-						</div>
+						<div class="col-md-9"></div>
 						<div class="col-md-1">
-						<button type="button" class="btn btn-success btn-lg">发布</button>
+							<button type="button" id="btn_post"
+								onclick="javascript:post_article()"
+								class="btn btn-success btn-lg">发布</button>
 						</div>
 					</div>
 				</div>
@@ -167,6 +178,7 @@
 			<!--start placeholder-->
 			<div class="col-md-2"></div>
 			<!--end placeholder-->
+
 		</div>
 	</div>
 	<script>
@@ -185,7 +197,6 @@
 					this.value = '';
 					$(this).change();
 				});
-
 
 				$('[data-role=magic-overlay]').each(
 						//picture
@@ -235,4 +246,6 @@
 </body>
 <script src="../js/editor/bootstrap-wysiwyg.js"></script>
 <script src="../js/editor/jquery.hotkeys.js"></script>
+<script src="../js/ajaxfileupload.js"></script>
+<script src="../js/post_article.js"></script>
 </html>

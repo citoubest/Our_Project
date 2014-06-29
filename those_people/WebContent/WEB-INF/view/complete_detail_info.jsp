@@ -8,9 +8,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link rel="stylesheet" type="text/css" href="../css/common_body.css">
 <link rel="stylesheet" type="text/css" href="../css/imgSelector/imgareaselect-default.css">
-<!-[if IE]>
-<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]->
+
+
 </head>
 <title>title</title>
 </head>
