@@ -43,6 +43,9 @@
 		<property name="staticsDao" ref="staticsDao"/>
 
 	</bean>
-
+	
+	<bean id="articleService" class="com.thosepeople.service.impl.ArticleServiceImpl">		
+		<property name="articleDao" ref="articleDao"/>
+	</bean>
 	
 </beans>

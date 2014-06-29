@@ -8,7 +8,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReadParam;
@@ -73,6 +77,26 @@ public class PictureUtil {
 		return fileName.substring(fileName.lastIndexOf(".")+1);
 	}
 
+	
+	public static List<String> getImgStr(String htmlStr){     
+	     String img="";     
+	     Pattern p_image;     
+	     Matcher m_image;     
+	     List<String> pics = new ArrayList<String>();  
+	  
+	     String regEx_img = "<img.*src=(.*?)[^>]*?>"; //图片链接地址     
+	     p_image = Pattern.compile   
+	             (regEx_img,Pattern.CASE_INSENSITIVE);     
+	    m_image = p_image.matcher(htmlStr);   
+	    while(m_image.find()){     
+	         img = img + "," + m_image.group();     
+	         Matcher m  = Pattern.compile("src=\"?(.*?)(\"|>|\\s+)").matcher(img); //匹配src  
+	         while(m.find()){  
+	            pics.add(m.group(1));  
+	         }  
+	     }     
+	        return pics;     
+	 }    
 	public static String getTargetPath(String suffix, String fileName,
 			String serverPath, String savePath) {
 		StringBuffer targetPath = new StringBuffer();

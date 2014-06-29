@@ -39,6 +39,9 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
+	<bean id="articleDao" class="com.thosepeople.dao.impl.ArticleDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 	
 	
 	
