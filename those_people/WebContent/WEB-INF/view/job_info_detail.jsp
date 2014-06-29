@@ -9,9 +9,7 @@
 <link rel="stylesheet" type="text/css" href="../css/common_body.css">
 <link rel="stylesheet" type="text/css"
 	href="../css/love_info_detail.css">
-<!-[if IE]>
-<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]->
+
 </head>
 <title>工作详细信息</title>
 </head>
