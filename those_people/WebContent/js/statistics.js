@@ -13,12 +13,12 @@ function praiseBox(info_id,info_type,operateType)
 	var operate="";
 	if(txt=="赞")
 	{
-		operate="doLike";
+		operate="doAdd";
 
 	}
 	else if(txt=="取消赞")
 	{
-		operate="doUnLike";
+		operate="doMinus";
 	}
 	
 	$.ajax({ 

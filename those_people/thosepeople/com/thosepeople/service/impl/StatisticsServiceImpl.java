@@ -3,6 +3,7 @@ package com.thosepeople.service.impl;
 
 import java.util.Map;
 
+import com.thosepeople.constant.OperateType;
 import com.thosepeople.dao.StaticsDao;
 import com.thosepeople.exception.BusinessException;
 import com.thosepeople.model.UserStaticsInfo;
@@ -24,7 +25,7 @@ public class StatisticsServiceImpl  implements StatisticsService{
 	// called when user push like or collect
 	@Override
 	public boolean add(int uid, int infoId, int infotype,
-			String operate) throws BusinessException {
+			OperateType operate) throws BusinessException {
 		
 		boolean flag =staticsDao.add(uid, infoId, infotype, operate);
 		return flag;
@@ -32,7 +33,7 @@ public class StatisticsServiceImpl  implements StatisticsService{
 	// called when user push unlike or uncollect
 	@Override
 	public boolean minus(int uid, int infoId, int infotype,
-			String operate) throws BusinessException {
+			OperateType operate) throws BusinessException {
 		boolean flag =staticsDao.minus(uid, infoId, infotype, operate);
 		return flag;
 	}
