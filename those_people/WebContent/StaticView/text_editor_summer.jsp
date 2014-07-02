@@ -4,7 +4,6 @@
 <html>
 <head>
 
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,6 +24,7 @@
 <link rel="stylesheet" type="text/css"
 	href="../css/summernote/summernote.css" />
 <script src="../js/summernote/summernote.js"></script>
+<script src="../js/summernote/summernote-zh-CN.js"></script>
 </head>
 
 
@@ -54,7 +54,7 @@
 						</div>
 						<div class="col-md-9"></div>
 						<div class="col-md-1">
-							<button type="button" id="btn_post"
+							<button type="button" id="btn_post" onclick="javascript:post_article()"
 								class="btn btn-success btn-lg">发布</button>
 						</div>
 					</div>

@@ -1,7 +1,11 @@
 
 $(document).ready(function()
 		{
-	$('#summernote').summernote({    
+	$('#summernote').summernote({
+		lang: 'zh-CN',
+		codemirror: { // codemirror options  
+		    theme: 'monokai'  
+		  },  
 		height:300,
 		toolbar: [
 		          ['style', ['bold', 'italic', 'underline','strikethrough']],
@@ -34,43 +38,20 @@ function sendFile(file,editor,welEditable) {
 		cache: false,
 		processData: false,
 	    contentType: false,
-		success: function(url) {
-			editor.insertImage(welEditable, url);
+		success: function(imgurl) {
+			
+			imgurl='/those_people'+imgurl;
+			editor.insertImage(welEditable, imgurl);
 		}
 	});
 }
-
-
-function ajaxFileUpload()  
-{  	  
-	$.ajaxFileUpload  
-	({  
-		url:'/those_people/article/upload.do',  
-		secureuri:false,  
-		fileElementId:'fileupload',
-		dataType: 'json', 
-		success: function (data, status)  
-		{  
-			var  image=$("<image src="+'/those_people'+data+" />");
-			$("#editor").append(image);
-		},  
-		error: function (data, status, e)  
-		{  
-			alert(data.status);  
-			alert(data.message+" error:  "+e);  
-		}       
-	}  
-	);
-	return false;  
-}
-
-
 
 function post_article()
 {
 	var v_title = document.getElementById("title").value;
 
-	var v_content = $('#editor').html();
+	
+	var v_content =$('#summernote').code();
 
 	$.post("/those_people/article/postArticle.do", {
 		"title":v_title,
