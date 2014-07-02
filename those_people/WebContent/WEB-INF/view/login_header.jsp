@@ -9,8 +9,7 @@
 
 
 <title>title</title>
-<link rel="stylesheet"
-	href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="../css/login_header.css">
 </head>
 <body>

@@ -77,19 +77,22 @@
 							</div>
 						</div>
 						<div class="btn-group">
+							<a href="#myModal" class="btn btn-default" title="图片（可直接拖拽）"
+								id="pictureBtn" target="btn" data-toggle="modal"><i
+								class="icon-picture"></i></a>
+							<div id="myModal" class="modal">
+								<span style="white-space: pre"></span>
+								<div class="modal-header">
+									<span style="white-space: pre"> </span><span
+										class="btn btn-success fileinput-button"> <i
+										class="icon-plus"></i> <span>Add files...</span> <span
+										style="white-space: pre"> </span> <input id="fileupload"
+										type="file" name="fileupload" onchange="ajaxFileUpload()" />
+										<span style="white-space: pre"> </span></span>
+								</div>
+							</div>
 
-							<a  href="#myModal" class="btn btn-default" title="图片（可直接拖拽）" id="pictureBtn" target="btn" data-toggle="modal"><i class="icon-picture"></i></a> 
-				
-							<div id="myModal" class="modal">  
-								<span style="white-space:pre"></span>
-								<div class="modal-header">  
-								    <span style="white-space:pre">  </span><span class="btn btn-success fileinput-button"> <i class="icon-plus"></i> <span>Add files...</span>  
-								        <span style="white-space:pre">  </span>
-								        <input id="fileupload"  type="file" name="fileupload" onchange="ajaxFileUpload()" />  
-								    <span style="white-space:pre">  </span></span>  
-								</div>  
-							</div>  
-						
+
 						</div>
 						<div class="btn-group">
 							<a class="btn btn-default" data-edit="undo" title="撤销"><i
@@ -99,9 +102,7 @@
 					</div>
 
 
-					<div id="editor">
-					
-					</div>
+					<div id="editor"></div>
 
 					<br>
 					<div class="row">
@@ -182,6 +183,9 @@
 		</div>
 	</div>
 	<script>
+	
+	
+	
 		$(function() {
 			function initToolbarBootstrapBindings() {
 				$('a[title]').tooltip({

@@ -11,6 +11,8 @@ public class ArticleDaoImpl extends JdbcDaoSupport implements ArticleDao{
 	private static final String INSERT_ARTICLE_INFO="insert into article_info(uid,content)"
 			+ "value(?,?)";
 
+	
+	
 	@Override
 	public boolean postArticle(final ArticleInfo articleInfo)throws BusinessException
 	{
